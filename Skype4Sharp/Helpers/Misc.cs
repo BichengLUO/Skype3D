@@ -16,6 +16,22 @@ namespace Skype4Sharp.Helpers
             returnValue = (Int64)(timeSpan.TotalMilliseconds + 0.5);
             return returnValue;
         }
+        public static Int64 getLastWeekTime()
+        {
+            Int64 returnValue = 0;
+            var startTime = new DateTime(1970, 1, 8);
+            TimeSpan timeSpan = (DateTime.Now.ToUniversalTime() - startTime);
+            returnValue = (Int64)(timeSpan.TotalMilliseconds + 0.5);
+            return returnValue;
+        }
+        public static Int64 getLastMonthTime()
+        {
+            Int64 returnValue = 0;
+            var startTime = new DateTime(1970, 2, 1);
+            TimeSpan timeSpan = (DateTime.Now.ToUniversalTime() - startTime);
+            returnValue = (Int64)(timeSpan.TotalMilliseconds + 0.5);
+            return returnValue;
+        }
 
         public static byte[] hashMD5_Byte(string strToHash)
         {

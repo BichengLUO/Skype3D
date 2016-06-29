@@ -1,12 +1,15 @@
-﻿using System.Net;
+﻿using System;
 using System.Text;
 using System.Net.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Skype4Sharp.Skype4SharpCore
 {
     class MessageModule
     {
         private Skype4Sharp parentSkype;
+        private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";
         public MessageModule(Skype4Sharp skypeToUse)
         {
             parentSkype = skypeToUse;
@@ -41,6 +44,50 @@ namespace Skype4Sharp.Skype4SharpCore
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
                 client.SendAsync(webRequest).Wait();
             }
+        }
+
+        public List<Chat> getRecent()
+        {
+            List<Chat> toReturn = new List<Chat>();
+            string startTime = Convert.ToString(Helpers.Misc.getLastWeekTime());
+            HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_GET(clientGatewayMessengerDomain + "/v1/users/ME/conversations?startTime=" + startTime + "&pageSize=100&view=msnp24Equivalent&targetType=Passport|Skype|Lync|Thread|PSTN", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
+            string rawInfo = "";
+            using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
+                var result = client.SendAsync(webRequest).Result;
+                rawInfo = result.Content.ReadAsStringAsync().Result;
+            }
+            dynamic jsonObject = JsonConvert.DeserializeObject(rawInfo);
+            foreach (dynamic chat in jsonObject.conversations)
+            {
+                toReturn.Add(chatFromRecent(chat));
+            }
+            return toReturn;
+        }
+
+        public Chat chatFromRecent(dynamic jsonObject)
+        {
+            Chat toReturn = new Chat(parentSkype);
+            toReturn.ChatLink = jsonObject.targetLink;
+            toReturn.ID = jsonObject.id;
+            if (jsonObject.threadProperties != null)
+            {
+                toReturn.Topic = jsonObject.threadProperties.topic;
+                toReturn.AvatarUri = new Uri("ms-appx:///Assets/default-group-avatar.png");
+            }
+            else
+            {
+                User user = parentSkype.GetUser(toReturn.ID.Remove(0, 2));
+                toReturn.Topic = user.DisplayName;
+                if (user.AvatarUri != null)
+                    toReturn.AvatarUri = user.AvatarUri;
+                else
+                    toReturn.AvatarUri = new Uri("ms-appx:///Assets/default-avatar.png");
+            }
+            toReturn.LastMessage = jsonObject.lastMessage.content;
+            return toReturn;
         }
     }
 }

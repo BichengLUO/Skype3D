@@ -94,6 +94,12 @@ namespace Skype4Sharp.Skype4SharpCore
             }
             toReturn.DisplayName = finalName;
             toReturn.Username = userName;
+            if (jsonObject.avatarUrl != null)
+                toReturn.AvatarUri = new Uri((string)jsonObject.avatarUrl, UriKind.Absolute);
+            if (jsonObject.locations != null && jsonObject.locations[0].city != null)
+                toReturn.Status = (string)jsonObject.locations[0].city + ", " + (string)jsonObject.locations[0].country;
+            if (jsonObject.mood != null)
+                toReturn.Status = (string)jsonObject.mood;
             toReturn.Type = (toReturn.Username.StartsWith("guest:")) ? Enums.UserType.Guest : Enums.UserType.Normal;
             return toReturn;
         }
@@ -109,7 +115,8 @@ namespace Skype4Sharp.Skype4SharpCore
             {
                 toReturn.DisplayName = toReturn.Username;
             }
-            toReturn.AvatarUri = new Uri((string)jsonObject.avatar_url, UriKind.Absolute);
+            if (jsonObject.avatar_url != null)
+                toReturn.AvatarUri = new Uri((string)jsonObject.avatar_url, UriKind.Absolute);
             if (jsonObject.locations != null && jsonObject.locations[0].city != null)
                 toReturn.Status = (string)jsonObject.locations[0].city + ", " + (string)jsonObject.locations[0].country;
             if (jsonObject.mood != null)

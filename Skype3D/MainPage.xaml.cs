@@ -32,6 +32,8 @@ namespace Skype3D
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            List<Skype4Sharp.Chat> recent = await Task.Run(() => App.mainSkype.GetRecent());
+            recentListView.ItemsSource = recent;
             List<Skype4Sharp.User> contacts = await Task.Run(() => App.mainSkype.GetContacts());
             peopleListView.ItemsSource = contacts;
         }

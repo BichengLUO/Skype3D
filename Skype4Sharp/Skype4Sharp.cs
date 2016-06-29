@@ -112,6 +112,11 @@ namespace Skype4Sharp
             blockUnauthorized();
             return mainContactModule.getContacts();
         }
+        public List<Chat> GetRecent()
+        {
+            blockUnauthorized();
+            return mainMessageModule.getRecent();
+        }
 
         public void editMessage(ChatMessage originalMessage, string newMessage)
         {

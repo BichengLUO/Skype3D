@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
-using System.Net;
 using System.Net.Http;
-using System.IO;
+using System;
 
 namespace Skype4Sharp
 {
     public class Chat
     {
         public string ID;
-        public string ChatLink;
+        public string ChatLink { get; set; }
+        public string LastMessage { get; set; }
+        public string Topic { get; set; }
+        public Uri AvatarUri { get; set; }
         public Enums.ChatType Type;
         public Skype4Sharp parentSkype;
         private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";
@@ -42,33 +44,6 @@ namespace Skype4Sharp
                     allUsernames.Add(((string)singleUser.id).Remove(0, 2));
                 }
                 return parentSkype.getUsers(allUsernames.ToArray());
-            }
-        }
-        public string Topic
-        {
-            get
-            {
-                HttpRequestMessage chatPropertyRequest = parentSkype.mainFactory.createWebRequest_GET(clientGatewayMessengerDomain + "/v1/threads/" + ID + "?view=msnp24Equivalent", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
-                string rawJSON = "";
-                using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
-                using (var client = new HttpClient(handler))
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                    var result = client.SendAsync(chatPropertyRequest).Result;
-                    rawJSON = result.Content.ReadAsStringAsync().Result;
-                }
-                dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
-                return decodedJSON.properties.topic;
-            }
-            set
-            {
-                HttpRequestMessage topicChangeRequest = parentSkype.mainFactory.createWebRequest_PUT(clientGatewayMessengerDomain + "/v1/threads/" + ID + "/properties?name=topic", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } }, Encoding.ASCII.GetBytes("{\"topic\":\"" + value.JsonEscape() + "\"}"), "application/json");
-                using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
-                using (var client = new HttpClient(handler))
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                    client.SendAsync(topicChangeRequest).Wait();
-                }
             }
         }
         public Enums.ChatRole Role
