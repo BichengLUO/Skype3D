@@ -10,7 +10,7 @@ namespace Skype4Sharp.Skype4SharpCore
     class AuthModule
     {
         private Skype4Sharp parentSkype;
-        private string clientGatewayMessengerDomain = "https://bn2-client-s.gateway.messenger.live.com";
+        private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";
         public AuthModule(Skype4Sharp skypeToUse)
         {
             parentSkype = skypeToUse;
@@ -20,7 +20,11 @@ namespace Skype4Sharp.Skype4SharpCore
             parentSkype.authState = Enums.LoginState.Processing;
             try
             {
-                parentSkype.authTokens.SkypeToken = getSkypeToken();
+                string skypeToken = getSkypeToken();
+                if (skypeToken == "")
+                    return false;
+                else
+                    parentSkype.authTokens.SkypeToken = skypeToken;
                 setRegTokenAndEndpoint();
                 startSubscription();
                 setProfile();

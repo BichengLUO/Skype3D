@@ -36,7 +36,7 @@ namespace Skype4Sharp
         private AuthModule mainAuthModule;
         private MessageModule mainMessageModule;
         private ContactModule mainContactModule;
-        private string clientGatewayMessengerDomain = "https://bn2-client-s.gateway.messenger.live.com";
+        private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";
         public Skype4Sharp(SkypeCredentials loginData)
         {
             authInfo = loginData;

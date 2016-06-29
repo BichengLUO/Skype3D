@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="Skype3D.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Skype3D"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBox x:Name="skypeNameBox" HorizontalAlignment="Stretch" Margin="20,120,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Skype Name" IsSpellCheckEnabled="False"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Stretch" Margin="20,157,20,0" VerticalAlignment="Top" PlaceholderText="Password"/>
+        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="20,220,20,0" VerticalAlignment="Top" Click="signInButton_Click"/>
+        <TextBlock x:Name="signInInfoBlock" HorizontalAlignment="Stretch" Margin="20,95,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="10" Margin="20,300,20,0" VerticalAlignment="Top" IsIndeterminate="True" Visibility="Collapsed"/>
+
+    </Grid>
+</Page>

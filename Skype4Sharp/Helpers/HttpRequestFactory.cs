@@ -1,5 +1,5 @@
 ﻿using System.Net.Http;
-using System.Net;
+using System.Net.Http.Headers;
 
 namespace Skype4Sharp.Helpers
 {
@@ -18,6 +18,8 @@ namespace Skype4Sharp.Helpers
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, targetURL);
             request.Content = new ByteArrayContent(postData);
+            if (contentType != "")
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             request.Content.Headers.ContentLength = postData.Length;
             foreach (string[] headerPair in requestHeaders)
             {
@@ -29,6 +31,8 @@ namespace Skype4Sharp.Helpers
         {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, targetURL);
             request.Content = new ByteArrayContent(postData);
+            if (contentType != "")
+                request.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             request.Content.Headers.ContentLength = postData.Length;
             foreach (string[] headerPair in requestHeaders)
             {

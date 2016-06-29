@@ -17,7 +17,7 @@ namespace Skype4Sharp.Events
         private List<string> processedContactRequests;
         Skype4Sharp parentSkype;
         private List<CancellationTokenSource> tokenSources = new List<CancellationTokenSource>();
-        private string clientGatewayMessengerDomain = "https://bn2-client-s.gateway.messenger.live.com";
+        private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";
         public Poller(Skype4Sharp toUse)
         {
             parentSkype = toUse;
