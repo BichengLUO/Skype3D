@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Collections.Generic;
 using Skype4Sharp.Auth;
 using Skype4Sharp.Enums;
 using Skype4Sharp.Events;
@@ -106,7 +107,7 @@ namespace Skype4Sharp
             blockUnauthorized();
             mainContactModule.deleteUser(targetUser);
         }
-        public User[] GetContacts()
+        public List<User> GetContacts()
         {
             blockUnauthorized();
             return mainContactModule.getContacts();

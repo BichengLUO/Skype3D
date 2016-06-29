@@ -136,6 +136,7 @@ namespace Skype4Sharp.Skype4SharpCore
             string firstName = decodedJSON.firstname;
             string lastName = decodedJSON.lastname;
             string userName = decodedJSON.username;
+            string avatarUrl = decodedJSON.avatarUrl;
             string finalName = "";
             if (firstName == null)
             {
@@ -157,6 +158,7 @@ namespace Skype4Sharp.Skype4SharpCore
             }
             parentSkype.selfProfile.DisplayName = finalName;
             parentSkype.selfProfile.Username = userName;
+            parentSkype.selfProfile.AvatarUri = new Uri(avatarUrl, UriKind.Absolute);
             parentSkype.selfProfile.Type = Enums.UserType.Normal;
         }
     }

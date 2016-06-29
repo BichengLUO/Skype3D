@@ -109,6 +109,7 @@ namespace Skype4Sharp.Skype4SharpCore
             {
                 toReturn.DisplayName = toReturn.Username;
             }
+            toReturn.AvatarUri = new Uri((string)jsonObject.avatar_url, UriKind.Absolute);
             toReturn.Type = Enums.UserType.Normal;
             return toReturn;
         }

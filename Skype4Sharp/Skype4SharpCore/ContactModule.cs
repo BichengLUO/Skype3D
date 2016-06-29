@@ -18,7 +18,7 @@ namespace Skype4Sharp.Skype4SharpCore
             parentSkype = skypeToUse;
             userModule = new UserModule(parentSkype);
         }
-        public User[] getContacts()
+        public List<User> getContacts()
         {
             List<User> toReturn = new List<User>();
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_GET("https://contacts.skype.com/contacts/v1/users/" + parentSkype.selfProfile.Username + "/contacts?$filter=type%20eq%20%27skype%27%20or%20type%20eq%20%27msn%27%20or%20type%20eq%20%27pstn%27%20or%20type%20eq%20%27agent%27&reason=default", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } });
@@ -35,7 +35,7 @@ namespace Skype4Sharp.Skype4SharpCore
             {
                 toReturn.Add(userModule.userFromContacts(singleUser));
             }
-            return toReturn.ToArray();
+            return toReturn;
         }
         public void addUser(string targetUsername, string requestMessage)
         {

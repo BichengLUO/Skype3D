@@ -36,7 +36,10 @@ namespace Skype3D
             App.mainSkype = new Skype4Sharp.Skype4Sharp(new SkypeCredentials(authUser, authPass));
             progressBar.Visibility = Visibility.Visible;
             if (await Task.Run(() => App.mainSkype.Login()))
+            {
                 signInInfoBlock.Text = "Signed in!";
+                Frame.Navigate(typeof(MainPage));
+            }
             else
                 signInInfoBlock.Text = "Oops, please check your details";
             progressBar.Visibility = Visibility.Collapsed;
