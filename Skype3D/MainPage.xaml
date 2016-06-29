@@ -22,7 +22,7 @@
                                 </Image>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding DisplayName}" FontSize="20"/>
-                                    <TextBlock Text="{Binding RecentMessage}" FontSize="16" Foreground="DarkGray"/>
+                                    <TextBlock Text="{Binding Status}" FontSize="16" Foreground="DarkGray"/>
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
@@ -41,7 +41,7 @@
                                 </Image>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding DisplayName}" FontSize="20"/>
-                                    <TextBlock Text="{Binding OnlineStatus}" FontSize="16" Foreground="DarkGray"/>
+                                    <TextBlock Text="{Binding Status}" FontSize="16" Foreground="DarkGray"/>
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
