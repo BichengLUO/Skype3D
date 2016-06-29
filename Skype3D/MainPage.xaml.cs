@@ -36,6 +36,7 @@ namespace Skype3D
             recentListView.ItemsSource = recent;
             List<Skype4Sharp.User> contacts = await Task.Run(() => App.mainSkype.GetContacts());
             peopleListView.ItemsSource = contacts;
+            progressBar.Visibility = Visibility.Collapsed;
         }
     }
 }

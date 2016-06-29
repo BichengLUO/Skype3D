@@ -9,6 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image x:Name="selfAvatarImage" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,10,10,10"/>
+        <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
         <Pivot Title="Skype3D">
             <PivotItem Header="recent">
                 <ListView x:Name="recentListView">
