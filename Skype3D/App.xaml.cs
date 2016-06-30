@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Skype3D.Utility;
 
 namespace Skype3D
 {
@@ -23,6 +24,7 @@ namespace Skype3D
     sealed partial class App : Application
     {
         public static Skype4Sharp.Skype4Sharp mainSkype;
+        public static string cookieFilename = "cookies";
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -38,7 +40,7 @@ namespace Skype3D
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -73,7 +75,10 @@ namespace Skype3D
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                    if (await CookieManager.FileExists(cookieFilename))
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    else
+                        rootFrame.Navigate(typeof(LoginPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();

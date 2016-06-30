@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Skype4Sharp.Auth;
+using Skype3D.Utility;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -38,6 +39,7 @@ namespace Skype3D
             if (await Task.Run(() => App.mainSkype.Login()))
             {
                 signInInfoBlock.Text = "Signed in!";
+                CookieManager.WriteCookiesToDisk(App.cookieFilename, App.mainSkype.mainCookies);
                 Frame.Navigate(typeof(MainPage));
             }
             else

@@ -80,7 +80,10 @@ namespace Skype4Sharp.Skype4SharpCore
             else
             {
                 User user = parentSkype.GetUser(toReturn.ID.Remove(0, 2));
-                toReturn.Topic = user.DisplayName;
+                if (user.DisplayName != null && user.DisplayName != "")
+                    toReturn.Topic = user.DisplayName;
+                else
+                    toReturn.Topic = user.Username;
                 if (user.AvatarUri != null)
                     toReturn.AvatarUri = user.AvatarUri;
                 else

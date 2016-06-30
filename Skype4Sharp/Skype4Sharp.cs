@@ -50,6 +50,17 @@ namespace Skype4Sharp
             mainMessageModule = new MessageModule(this);
             mainContactModule = new ContactModule(this);
         }
+        public Skype4Sharp(CookieContainer cookieContainer)
+        {
+            mainCookies = cookieContainer;
+            mainFactory = new HttpRequestFactory();
+            mainPoll = new Poller(this);
+            selfProfile = new User(this);
+            mainUserModule = new UserModule(this);
+            mainAuthModule = new AuthModule(this);
+            mainMessageModule = new MessageModule(this);
+            mainContactModule = new ContactModule(this);
+        }
         public void StartPoll()
         {
             blockUnauthorized();
