@@ -40,5 +40,15 @@ namespace Skype3D.Utility
             catch { return false; }
             return true;
         }
+
+        public static async void RemoveFile(string fileName)
+        {
+            StorageFolder temporaryFolder = ApplicationData.Current.TemporaryFolder;
+            try {
+                StorageFile file = await temporaryFolder.GetFileAsync(fileName);
+                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            catch { }
+        }
     }
 }

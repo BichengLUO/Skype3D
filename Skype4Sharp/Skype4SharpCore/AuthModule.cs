@@ -41,6 +41,17 @@ namespace Skype4Sharp.Skype4SharpCore
                 return false;
             }
         }
+        public void Logout()
+        {
+            HttpRequestMessage logoutRequest = parentSkype.mainFactory.createWebRequest_GET("https://login.skype.com/logout?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { });
+            using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
+                client.SendAsync(logoutRequest).Wait();
+            }
+            parentSkype.authState = Enums.LoginState.Unknown;
+        }
         private string getSkypeTokenBySession()
         {
             string skypeToken = "";
@@ -61,15 +72,18 @@ namespace Skype4Sharp.Skype4SharpCore
             {
                 case Enums.SkypeTokenType.Standard:
                     HttpRequestMessage standardTokenRequest = parentSkype.mainFactory.createWebRequest_GET("https://login.skype.com/login?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { });
-                    string uploadData = "";
+                    string rawDownload = "";
                     using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
                     using (var client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
                         var result = client.SendAsync(standardTokenRequest).Result;
-                        string rawDownload = result.Content.ReadAsStringAsync().Result;
-                        uploadData = string.Format("username={0}&password={1}&timezone_field={2}&js_time={3}&pie={4}&etm={5}&client_id=578134&redirect_uri={6}&persistent=1", parentSkype.authInfo.Username.UrlEncode(), parentSkype.authInfo.Password.UrlEncode(), DateTime.Now.ToString("zzz").Replace(":", "|").UrlEncode(), (Helpers.Misc.getTime() / 1000).ToString(), new Regex("<input type=\"hidden\" name=\"pie\" id=\"pie\" value=\"(.*?)\"/>").Match(rawDownload).Groups[1].ToString().UrlEncode(), new Regex("<input type=\"hidden\" name=\"etm\" id=\"etm\" value=\"(.*?)\"/>").Match(rawDownload).Groups[1].ToString().UrlEncode(), "https://web.skype.com".UrlEncode());
+                        rawDownload = result.Content.ReadAsStringAsync().Result;
                     }
+                    string skypeToken = new Regex("type=\"hidden\" name=\"skypetoken\" value=\"(.*?)\"").Match(rawDownload).Groups[1].ToString();
+                    if (skypeToken != null && skypeToken != "")
+                        return skypeToken;
+                    string uploadData = string.Format("username={0}&password={1}&timezone_field={2}&js_time={3}&pie={4}&etm={5}&client_id=578134&redirect_uri={6}&persistent=1", parentSkype.authInfo.Username.UrlEncode(), parentSkype.authInfo.Password.UrlEncode(), DateTime.Now.ToString("zzz").Replace(":", "|").UrlEncode(), (Helpers.Misc.getTime() / 1000).ToString(), new Regex("<input type=\"hidden\" name=\"pie\" id=\"pie\" value=\"(.*?)\"/>").Match(rawDownload).Groups[1].ToString().UrlEncode(), new Regex("<input type=\"hidden\" name=\"etm\" id=\"etm\" value=\"(.*?)\"/>").Match(rawDownload).Groups[1].ToString().UrlEncode(), "https://web.skype.com".UrlEncode());
                     HttpRequestMessage actualLogin = parentSkype.mainFactory.createWebRequest_POST("https://login.skype.com/login?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { }, Encoding.ASCII.GetBytes(uploadData), "");
                     using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
                     using (var client = new HttpClient(handler))

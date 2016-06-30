@@ -89,6 +89,11 @@ namespace Skype4Sharp
                 return loginSuccess;
             }
         }
+        public void Logout()
+        {
+            mainPoll.StopPoll();
+            mainAuthModule.Logout();
+        }
         public ChatMessage SendMessage(Chat targetChat, string newMessage, MessageType messageType = MessageType.Text)
         {
             blockUnauthorized();

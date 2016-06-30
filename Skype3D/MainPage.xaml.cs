@@ -29,6 +29,7 @@ namespace Skype3D
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -51,6 +52,11 @@ namespace Skype3D
             List<Skype4Sharp.User> contacts = await Task.Run(() => App.mainSkype.GetContacts());
             peopleListView.ItemsSource = contacts;
             progressBar.Visibility = Visibility.Collapsed;
+        }
+
+        private void profileButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ProfilePage));
         }
     }
 }
