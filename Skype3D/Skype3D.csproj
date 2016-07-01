@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="..\UnityCommon.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -87,6 +88,12 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' == 'x64'">
+    <UnityBits>64</UnityBits>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)' != 'x64'">
+    <UnityBits>32</UnityBits>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="project.json" />
@@ -116,6 +123,7 @@
   <ItemGroup>
     <Content Include="Assets\default-avatar.png" />
     <Content Include="Assets\default-group-avatar.png" />
+    <Content Include="Data\managedAssemblies.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -124,6 +132,19 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Reference Include="UnityEngine">
+      <HintPath>.\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="WinRTLegacy">
+      <HintPath>.\WinRTLegacy.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>.\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>.\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Content Include="Data\**" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -144,16 +165,79 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Skype3D\UWP\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
+      <Project>{194d914d-0664-444e-b663-4d0f1c80af68}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Skype3D\UWP\Assembly-CSharp\Assembly-CSharp.csproj">
+      <Project>{fba57953-c0c3-f9d8-e86a-9f7c063b5fde}</Project>
+      <Name>Assembly-CSharp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Skype4Sharp\Skype4Sharp.csproj">
       <Project>{4875163a-2ce6-4308-90af-c633cdc3f438}</Project>
       <Name>Skype4Sharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="UnityPlayer">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityPlayer.winmd</HintPath>
+    </Reference>
+    <Reference Include="WinRTBridge">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\WinRTBridge.winmd</HintPath>
+    </Reference>
+    <Reference Include="BridgeInterface">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\BridgeInterface.winmd</HintPath>
+    </Reference>
+    <Reference Include="UnityEngineDelegates">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityEngineDelegates.winmd</HintPath>
+    </Reference>
+    <Reference Include="UnityEngineProxy">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Players\UAP\$(PlatformTarget)\$(Configuration)\UnityEngineProxy.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <ItemGroup>
+    <UnprocessedFile Include="$(ProjectDir)Unprocessed\*" />
+  </ItemGroup>
+  <Target Name="BeforeResolveReferences" Condition="'$(BuildingProject)' == 'true'">
+    <Message Importance="high" Text="UnityInstallationDir &quot;$(UnityInstallationDir)&quot;." />
+    <Message Importance="high" Text="UnityWSAPlayerDir &quot;$(UnityWSAPlayerDir)&quot;." />
+    <Message Importance="high" Text="UnityProjectDir &quot;$(UnityProjectDir)&quot;." />
+    <Message Importance="high" Text="Copying unprocessed assemblies..." />
+    <Copy SourceFiles="@(UnprocessedFile)" DestinationFolder="$(ProjectDir)" />
+    <Copy SourceFiles="$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp.dll" DestinationFiles="$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp.dll" />
+    <Copy SourceFiles="$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp.pdb" DestinationFiles="$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp.pdb" Condition="Exists('$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp.pdb')" />
+    <Copy SourceFiles="$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp-firstpass.dll" DestinationFiles="$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp-firstpass.dll" />
+    <Copy SourceFiles="$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp-firstpass.pdb" DestinationFiles="$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp-firstpass.pdb" Condition="Exists('$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Unprocessed\Assembly-CSharp-firstpass.pdb')" />
+  </Target>
+  <Target Name="BeforeCompile" Condition="'$(BuildingProject)' == 'true'">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Master' ">
+      <RemoveDebuggableAttribute>True</RemoveDebuggableAttribute>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' != 'Master' ">
+      <RemoveDebuggableAttribute>False</RemoveDebuggableAttribute>
+    </PropertyGroup>
+    <Message Importance="high" Text="Running AssemblyConverter..." />
+    <Exec Command="&quot;$(UnityWSAToolsDir)\AssemblyConverter.exe&quot; -platform=uap -lock=&quot;$(ProjectDir)project.lock.json&quot; -bits=$(UnityBits) -removeDebuggableAttribute=$(RemoveDebuggableAttribute) -path=&quot;.&quot; -path=&quot;..\Players\UAP\$(PlatformTarget)\$(Configuration)&quot; &quot;$(UnityProjectDir)\UWP\Assembly-CSharp\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp.dll&quot; &quot;$(UnityProjectDir)\UWP\Assembly-CSharp-firstpass\bin\$(PlatformName)\$(ConfigurationName)\Assembly-CSharp-firstpass.dll&quot; &quot;$(ProjectDir)UnityEngine.dll&quot; &quot;$(ProjectDir)UnityEngine.UI.dll&quot; &quot;$(ProjectDir)UnityEngine.Networking.dll&quot;" />
+    <Message Importance="high" Text="AssemblyConverter done." />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
