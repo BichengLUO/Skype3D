@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Skype3D.Utility;
+using UnityPlayer;
 
 namespace Skype3D
 {
@@ -23,6 +24,7 @@ namespace Skype3D
     /// </summary>
     sealed partial class App : Application
     {
+        private AppCallbacks appCallbacks;
         public static Skype4Sharp.Skype4Sharp mainSkype;
         public static string cookieFilename = "cookies";
         /// <summary>
@@ -33,6 +35,7 @@ namespace Skype3D
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            appCallbacks = new AppCallbacks();
         }
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace Skype3D
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+            appCallbacks.SetAppArguments(e.Arguments);
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
