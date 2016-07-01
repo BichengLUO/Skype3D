@@ -29,22 +29,6 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </PivotItem>
-            <PivotItem Header="favorites">
-                <GridView x:Name="favoritesGridView">
-                    <GridView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="120" Height="120" Margin="5,5,5,5">
-                                <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Image.Source>
-                                        <BitmapImage UriSource="{Binding AvatarUri}" />
-                                    </Image.Source>
-                                </Image>
-                                <TextBlock Text="{Binding DisplayName}" FontSize="16" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,5,5,5"/>
-                            </Grid>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-            </PivotItem>
             <PivotItem Header="people">
                 <ListView x:Name="peopleListView">
                     <ListView.ItemTemplate>
