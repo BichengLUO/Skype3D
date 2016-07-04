@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -20,40 +21,34 @@ namespace Skype4Sharp
         {
             parentSkype = skypeToUse;
         }
-        public User[] Participants
+        public async Task<User[]> getParticipants()
         {
-            get
+            if (Type == Enums.ChatType.Private)
             {
-                if (Type == Enums.ChatType.Private)
-                {
-                    return new User[] { parentSkype.selfProfile, parentSkype.GetUser(ID.Remove(0, 2)) };
-                }
-                HttpRequestMessage userListRequest = parentSkype.mainFactory.createWebRequest_GET(clientGatewayMessengerDomain + "/v1/threads/" + ID + "?view=msnp24Equivalent", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
-                string rawJSON = "";
-                using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
-                using (var client = new HttpClient(handler))
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                    var result = client.SendAsync(userListRequest).Result;
-                    rawJSON = result.Content.ReadAsStringAsync().Result;
-                }
-                dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
-                List<string> allUsernames = new List<string>();
-                foreach (dynamic singleUser in decodedJSON.members)
-                {
-                    allUsernames.Add(((string)singleUser.id).Remove(0, 2));
-                }
-                return parentSkype.getUsers(allUsernames.ToArray());
+                return new User[] { parentSkype.selfProfile, await parentSkype.GetUser(ID.Remove(0, 2)) };
             }
+            HttpRequestMessage userListRequest = parentSkype.mainFactory.createWebRequest_GET(clientGatewayMessengerDomain + "/v1/threads/" + ID + "?view=msnp24Equivalent", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
+            string rawJSON = "";
+            using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
+                var result = await client.SendAsync(userListRequest);
+                rawJSON = await result.Content.ReadAsStringAsync();
+            }
+            dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
+            List<string> allUsernames = new List<string>();
+            foreach (dynamic singleUser in decodedJSON.members)
+            {
+                allUsernames.Add(((string)singleUser.id).Remove(0, 2));
+            }
+            return await parentSkype.getUsers(allUsernames.ToArray());
         }
-        public Enums.ChatRole Role
+        public async Task<Enums.ChatRole> getRole()
         {
-            get
-            {
-                return getRole(parentSkype.selfProfile.Username);
-            }
+            return await getRole(parentSkype.selfProfile.Username);
         }
-        public void Kick(string usernameToKick)
+        public async Task Kick(string usernameToKick)
         {
             checkChatType();
             HttpRequestMessage kickUserRequest = parentSkype.mainFactory.createWebRequest_DELETE(clientGatewayMessengerDomain + "/v1/threads/" + ID + "/members/8:" + usernameToKick.ToLower(), new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
@@ -61,10 +56,10 @@ namespace Skype4Sharp
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(kickUserRequest).Wait();
+                await client.SendAsync(kickUserRequest);
             }
         }
-        public void Add(string usernameToAdd)
+        public async Task Add(string usernameToAdd)
         {
             checkChatType();
             HttpRequestMessage addUserRequest = parentSkype.mainFactory.createWebRequest_PUT(clientGatewayMessengerDomain + "/v1/threads/" + ID + "/members/8:" + usernameToAdd.ToLower(), new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } }, Encoding.ASCII.GetBytes("{\"role\":\"User\"}"), "application/json");
@@ -72,14 +67,14 @@ namespace Skype4Sharp
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(addUserRequest).Wait();
+                await client.SendAsync(addUserRequest);
             }
         }
-        public void Leave()
+        public async Task Leave()
         {
-            Kick(parentSkype.selfProfile.Username);
+            await Kick(parentSkype.selfProfile.Username);
         }
-        public void SetAdmin(string usernameToPromote)
+        public async Task SetAdmin(string usernameToPromote)
         {
             checkChatType();
             HttpRequestMessage addUserRequest = parentSkype.mainFactory.createWebRequest_PUT(clientGatewayMessengerDomain + "/v1/threads/" + ID + "/members/8:" + usernameToPromote.ToLower(), new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } }, Encoding.ASCII.GetBytes("{\"role\":\"Admin\"}"), "application/json");
@@ -87,14 +82,14 @@ namespace Skype4Sharp
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(addUserRequest).Wait();
+                await client.SendAsync(addUserRequest);
             }
         }
-        public Enums.ChatRole UserRole(string userToCheck)
+        public async Task<Enums.ChatRole> UserRole(string userToCheck)
         {
-            return getRole(userToCheck);
+            return await getRole(userToCheck);
         }
-        private Enums.ChatRole getRole(string userToCheck)
+        private async Task<Enums.ChatRole> getRole(string userToCheck)
         {
             if (Type == Enums.ChatType.Private)
             {
@@ -106,8 +101,8 @@ namespace Skype4Sharp
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(chatPropertyRequest).Result;
-                rawJSON = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(chatPropertyRequest);
+                rawJSON = await result.Content.ReadAsStringAsync();
             }
             dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
             foreach (dynamic singleUser in decodedJSON.members)

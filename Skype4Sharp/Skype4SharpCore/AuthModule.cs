@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,23 +16,23 @@ namespace Skype4Sharp.Skype4SharpCore
         {
             parentSkype = skypeToUse;
         }
-        public bool Login()
+        public async Task<bool> Login()
         {
             parentSkype.authState = Enums.LoginState.Processing;
             try
             {
                 string skypeToken = "";
                 if (parentSkype.authInfo != null)
-                    skypeToken = getSkypeToken();
+                    skypeToken = await getSkypeToken();
                 else
-                    skypeToken = getSkypeTokenBySession();
+                    skypeToken = await getSkypeTokenBySession();
                 if (skypeToken == "")
                     return false;
                 else
                     parentSkype.authTokens.SkypeToken = skypeToken;
-                setRegTokenAndEndpoint();
-                startSubscription();
-                setProfile();
+                await setRegTokenAndEndpoint();
+                await startSubscription();
+                await setProfile();
                 parentSkype.authState = Enums.LoginState.Success;
                 return true;
             }
@@ -41,18 +42,18 @@ namespace Skype4Sharp.Skype4SharpCore
                 return false;
             }
         }
-        public void Logout()
+        public async Task Logout()
         {
             HttpRequestMessage logoutRequest = parentSkype.mainFactory.createWebRequest_GET("https://login.skype.com/logout?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { });
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(logoutRequest).Wait();
+                await client.SendAsync(logoutRequest);
             }
             parentSkype.authState = Enums.LoginState.Unknown;
         }
-        private string getSkypeTokenBySession()
+        private async Task<string> getSkypeTokenBySession()
         {
             string skypeToken = "";
             HttpRequestMessage standardTokenRequest = parentSkype.mainFactory.createWebRequest_GET("https://login.skype.com/login?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { });
@@ -60,13 +61,13 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(standardTokenRequest).Result;
-                string resp = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(standardTokenRequest);
+                string resp = await result.Content.ReadAsStringAsync();
                 skypeToken = new Regex("type=\"hidden\" name=\"skypetoken\" value=\"(.*?)\"").Match(resp).Groups[1].ToString();
             }
             return skypeToken;
         }
-        private string getSkypeToken()
+        private async Task<string> getSkypeToken()
         {
             switch (parentSkype.tokenType)
             {
@@ -77,8 +78,8 @@ namespace Skype4Sharp.Skype4SharpCore
                     using (var client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                        var result = client.SendAsync(standardTokenRequest).Result;
-                        rawDownload = result.Content.ReadAsStringAsync().Result;
+                        var result = await client.SendAsync(standardTokenRequest);
+                        rawDownload = await result.Content.ReadAsStringAsync();
                     }
                     string skypeToken = new Regex("type=\"hidden\" name=\"skypetoken\" value=\"(.*?)\"").Match(rawDownload).Groups[1].ToString();
                     if (skypeToken != null && skypeToken != "")
@@ -89,8 +90,8 @@ namespace Skype4Sharp.Skype4SharpCore
                     using (var client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                        var result = client.SendAsync(actualLogin).Result;
-                        string resp = result.Content.ReadAsStringAsync().Result;
+                        var result = await client.SendAsync(actualLogin);
+                        string resp = await result.Content.ReadAsStringAsync();
                         return new Regex("type=\"hidden\" name=\"skypetoken\" value=\"(.*?)\"").Match(resp).Groups[1].ToString();
                     }
                 case Enums.SkypeTokenType.MSNP24:
@@ -99,22 +100,22 @@ namespace Skype4Sharp.Skype4SharpCore
                     using (var client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                        var result = client.SendAsync(MSNP24TokenRequest).Result;
-                        string resp = result.Content.ReadAsStringAsync().Result;
+                        var result = await client.SendAsync(MSNP24TokenRequest);
+                        string resp = await result.Content.ReadAsStringAsync();
                         return new Regex("{\"skypetoken\":\"(.*?)\",\"expiresIn\":86400}").Match(resp).Groups[1].ToString();
                     }
                 default:
                     return null;
             }
         }
-        private void setRegTokenAndEndpoint()
+        private async Task setRegTokenAndEndpoint()
         {
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_POST(clientGatewayMessengerDomain + "/v1/users/ME/endpoints", new string[][] { new string[] { "Authentication", "skypetoken=" + parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{}"), "application/x-www-form-urlencoded");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var webResponse = client.SendAsync(webRequest).Result;
+                var webResponse = await client.SendAsync(webRequest);
                 IEnumerable<string> values;
                 if (webResponse.Headers.TryGetValues("Set-RegistrationToken", out values))
                 {
@@ -136,24 +137,24 @@ namespace Skype4Sharp.Skype4SharpCore
                 }
             }
         }
-        private void startSubscription()
+        private async Task startSubscription()
         {
             HttpRequestMessage propertiesRequest = parentSkype.mainFactory.createWebRequest_PUT(clientGatewayMessengerDomain + "/v1/users/ME/endpoints/SELF/properties?name=supportsMessageProperties", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } }, Encoding.ASCII.GetBytes("{\"supportsMessageProperties\":true}"), "application/json");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(propertiesRequest).Wait();
+                await client.SendAsync(propertiesRequest);
             }
             HttpRequestMessage subscriptionRequest = parentSkype.mainFactory.createWebRequest_POST(clientGatewayMessengerDomain + "/v1/users/ME/endpoints/SELF/subscriptions", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } }, Encoding.ASCII.GetBytes("{\"channelType\":\"httpLongPoll\",\"template\":\"raw\",\"interestedResources\":[\"/v1/users/ME/conversations/ALL/properties\",\"/v1/users/ME/conversations/ALL/messages\",\"/v1/users/ME/contacts/ALL\",\"/v1/threads/ALL\"]}"), "application/json");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(subscriptionRequest).Wait();
+                await client.SendAsync(subscriptionRequest);
             }
         }
-        private void setProfile()
+        private async Task setProfile()
         {
             HttpRequestMessage selfProfileRequest = parentSkype.mainFactory.createWebRequest_GET("https://api.skype.com/users/self/profile", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } });
             string rawJSON = "";
@@ -161,8 +162,8 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(selfProfileRequest).Result;
-                rawJSON = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(selfProfileRequest);
+                rawJSON = await result.Content.ReadAsStringAsync();
             }
             dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
             string firstName = decodedJSON.firstname;

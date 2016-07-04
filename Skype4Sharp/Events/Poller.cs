@@ -53,7 +53,7 @@ namespace Skype4Sharp.Events
                     string[] emptyResponses = { "{}", null, "" };
                     if (!(emptyResponses.Contains(rawInfo)))
                     {
-                        ProcessPoll(rawInfo);
+                        ProcessPoll(rawInfo).Wait();
                     }
                     if (mainToken.IsCancellationRequested)
                         break;
@@ -82,7 +82,7 @@ namespace Skype4Sharp.Events
                         if (!(processedContactRequests.Contains(senderName)))
                         {
                             processedContactRequests.Add(senderName);
-                            User requestSender = parentSkype.GetUser(senderName);
+                            User requestSender = parentSkype.GetUser(senderName).Result;
                             ContactRequest newRequest = new ContactRequest(parentSkype);
                             newRequest.Sender = requestSender;
                             newRequest.Body = ((string)singleRequest.greeting).HtmlDecode();
@@ -95,7 +95,7 @@ namespace Skype4Sharp.Events
                 }
             }, requestsToken);
         }
-        public void ProcessPoll(string rawInfo)
+        public async Task ProcessPoll(string rawInfo)
         {
             dynamic allData = JsonConvert.DeserializeObject(rawInfo);
             foreach (dynamic singleMessage in allData.eventMessages)
@@ -119,23 +119,23 @@ namespace Skype4Sharp.Events
                                 case "ThreadActivity/AddMember":
                                     {
                                         Regex userFinder = new Regex("<addmember><eventtime>(.*?)</eventtime><initiator>8:(.*?)</initiator><target>8:(.*?)</target></addmember>");
-                                        User eventInitiator = parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
-                                        User eventTarget = parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
+                                        User eventInitiator = await parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
+                                        User eventTarget = await parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
                                         parentSkype.invokeChatMembersChanged(messageChat, eventInitiator, eventTarget, (eventInitiator.Username == eventTarget.Username) ? Enums.ChatMemberChangedType.Joined : Enums.ChatMemberChangedType.Added);
                                     }
                                     break;
                                 case "ThreadActivity/DeleteMember":
                                     {
                                         Regex userFinder = new Regex("<deletemember><eventtime>(.*?)</eventtime><initiator>8:(.*?)</initiator><target>8:(.*?)</target></deletemember>");
-                                        User eventInitiator = parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
-                                        User eventTarget = parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
+                                        User eventInitiator = await parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
+                                        User eventTarget = await parentSkype.GetUser(userFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
                                         parentSkype.invokeChatMembersChanged(messageChat, eventInitiator, eventTarget, (eventInitiator.Username == eventTarget.Username) ? Enums.ChatMemberChangedType.Left : Enums.ChatMemberChangedType.Removed);
                                     }
                                     break;
                                 case "ThreadActivity/TopicUpdate":
                                     {
                                         Regex topicFinder = new Regex("<topicupdate><eventtime>(.*?)</eventtime><initiator>8:(.*?)</initiator><value>(.*?)</value></topicupdate>");
-                                        User eventInitiator = parentSkype.GetUser(topicFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
+                                        User eventInitiator = await parentSkype.GetUser(topicFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
                                         string newTopic = topicFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString();
                                         newTopic = newTopic.HtmlDecode();
                                         parentSkype.invokeTopicChange(messageChat, eventInitiator, newTopic.HtmlDecode());
@@ -144,7 +144,7 @@ namespace Skype4Sharp.Events
                                 case "ThreadActivity/PictureUpdate":
                                     {
                                         Regex pictureFinder = new Regex("<pictureupdate><eventtime>(.*?)</eventtime><initiator>8:(.*?)</initiator><value>(.*?)</value></pictureupdate>");
-                                        User eventInitiator = parentSkype.GetUser(pictureFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
+                                        User eventInitiator = await parentSkype.GetUser(pictureFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
                                         string imageURL = pictureFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString();
                                         parentSkype.invokeChatPictureChanged(messageChat, eventInitiator, imageURL.Remove(0, 4));
                                     }
@@ -152,8 +152,8 @@ namespace Skype4Sharp.Events
                                 case "ThreadActivity/RoleUpdate":
                                     {
                                         Regex roleFinder = new Regex("<roleupdate><eventtime>(.*?)</eventtime><initiator>8:(.*?)</initiator><target><id>8:(.*?)</id><role>(.*?)</role></target></roleupdate>");
-                                        User eventInitiator = parentSkype.GetUser(roleFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
-                                        User eventTarget = parentSkype.GetUser(roleFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
+                                        User eventInitiator = await parentSkype.GetUser(roleFinder.Match(((string)singleMessage.resource.content)).Groups[2].ToString());
+                                        User eventTarget = await parentSkype.GetUser(roleFinder.Match(((string)singleMessage.resource.content)).Groups[3].ToString());
                                         string newRoleString = roleFinder.Match(((string)singleMessage.resource.content)).Groups[4].ToString();
                                         Enums.ChatRole newRole = (newRoleString == "user") ? Enums.ChatRole.User : Enums.ChatRole.Admin;
                                         parentSkype.invokeUserRoleChanged(messageChat, eventInitiator, eventTarget, newRole);

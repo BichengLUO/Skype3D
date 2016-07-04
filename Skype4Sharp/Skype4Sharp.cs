@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Skype4Sharp.Auth;
 using Skype4Sharp.Enums;
 using Skype4Sharp.Events;
@@ -71,7 +72,7 @@ namespace Skype4Sharp
             blockUnauthorized();
             mainPoll.StopPoll();
         }
-        public bool Login(bool bypassLogin = false)
+        public async Task<bool> Login(bool bypassLogin = false)
         {
             if (!bypassLogin)
             {
@@ -79,69 +80,69 @@ namespace Skype4Sharp
                 {
                     throw new InvalidSkypeActionException("You are already signed in");
                 }
-                return mainAuthModule.Login();
+                return await mainAuthModule.Login();
             }
             else
             {
                 mainPoll.StopPoll();
-                bool loginSuccess = mainAuthModule.Login();
+                bool loginSuccess = await mainAuthModule.Login();
                 mainPoll.StartPoll();
                 return loginSuccess;
             }
         }
-        public void Logout()
+        public async Task Logout()
         {
             mainPoll.StopPoll();
-            mainAuthModule.Logout();
+            await mainAuthModule.Logout();
         }
-        public ChatMessage SendMessage(Chat targetChat, string newMessage, MessageType messageType = MessageType.Text)
+        public async Task<ChatMessage> SendMessage(Chat targetChat, string newMessage, MessageType messageType = MessageType.Text)
         {
             blockUnauthorized();
-            return mainMessageModule.createMessage(targetChat, newMessage, messageType);
+            return await mainMessageModule.createMessage(targetChat, newMessage, messageType);
         }
-        public ChatMessage SendMessage(string targetUser, string newMessage, MessageType messageType = MessageType.Text)
+        public async Task<ChatMessage> SendMessage(string targetUser, string newMessage, MessageType messageType = MessageType.Text)
         {
             blockUnauthorized();
             Chat targetChat = new Chat(this);
             targetChat.ID = "8:" + targetUser.ToLower();
             targetChat.ChatLink = clientGatewayMessengerDomain + "/v1/users/ME/conversations/" + targetChat.ID;
             targetChat.Type = Enums.ChatType.Private;
-            return mainMessageModule.createMessage(targetChat, newMessage, messageType);
+            return await mainMessageModule.createMessage(targetChat, newMessage, messageType);
         }
-        public User GetUser(string inputName)
+        public async Task<User> GetUser(string inputName)
         {
             blockUnauthorized();
-            return mainUserModule.getUser(inputName);
+            return await mainUserModule.getUser(inputName);
         }
-        public void AddUser(string targetUser, string requestMessage)
+        public async Task AddUser(string targetUser, string requestMessage)
         {
             blockUnauthorized();
-            mainContactModule.addUser(targetUser, requestMessage);
+            await mainContactModule.addUser(targetUser, requestMessage);
         }
-        public void RemoveUser(string targetUser)
+        public async Task RemoveUser(string targetUser)
         {
             blockUnauthorized();
-            mainContactModule.deleteUser(targetUser);
+            await mainContactModule.deleteUser(targetUser);
         }
-        public List<User> GetContacts()
+        public async Task<List<User>> GetContacts()
         {
             blockUnauthorized();
-            return mainContactModule.getContacts();
+            return await mainContactModule.getContacts();
         }
-        public List<Chat> GetRecent()
+        public async Task<List<Chat>> GetRecent()
         {
             blockUnauthorized();
-            return mainMessageModule.getRecent();
+            return await mainMessageModule.getRecent();
         }
 
-        public void editMessage(ChatMessage originalMessage, string newMessage)
+        public async Task editMessage(ChatMessage originalMessage, string newMessage)
         {
-            mainMessageModule.editMessage(originalMessage, newMessage);
+            await mainMessageModule.editMessage(originalMessage, newMessage);
         }
-        public User[] getUsers(string[] inputNames)
+        public async Task<User[]> getUsers(string[] inputNames)
         {
             blockUnauthorized();
-            return mainUserModule.getUsers(inputNames);
+            return await mainUserModule.getUsers(inputNames);
         }
         public void invokeMessageReceived(ChatMessage pMessage)
         {

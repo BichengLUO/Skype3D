@@ -43,7 +43,7 @@ namespace Skype3D
 
         private async void signOutButton_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() => App.mainSkype.Logout());
+            await App.mainSkype.Logout();
             CookieManager.RemoveFile(App.cookieFilename);
             Frame.Navigate(typeof(LoginPage));
         }

@@ -36,7 +36,7 @@ namespace Skype3D
             string authPass = passwordBox.Password;
             App.mainSkype = new Skype4Sharp.Skype4Sharp(new SkypeCredentials(authUser, authPass));
             progressBar.Visibility = Visibility.Visible;
-            if (await Task.Run(() => App.mainSkype.Login()))
+            if (await App.mainSkype.Login())
             {
                 signInInfoBlock.Text = "Signed in!";
                 CookieManager.WriteCookiesToDisk(App.cookieFilename, App.mainSkype.mainCookies);

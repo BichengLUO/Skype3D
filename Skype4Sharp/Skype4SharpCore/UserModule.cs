@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using System.Net;
@@ -16,7 +17,7 @@ namespace Skype4Sharp.Skype4SharpCore
         {
             parentSkype = skypeToUse;
         }
-        public User getUser(string inputName)
+        public async Task<User> getUser(string inputName)
         {
             HttpRequestMessage profileRequest = parentSkype.mainFactory.createWebRequest_POST("https://api.skype.com/users/batch/profiles", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{\"usernames\":[\"" + inputName.JsonEscape() + "\"]}"), "application/json");
             string rawJSON = "";
@@ -24,20 +25,20 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(profileRequest).Result;
-                rawJSON = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(profileRequest);
+                rawJSON = await result.Content.ReadAsStringAsync();
             }
             dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
             return userFromJson(decodedJSON[0]);
         }
-        public User[] getUsers(string[] inputNames)
+        public async Task<User[]> getUsers(string[] inputNames)
         {
             switch (inputNames.Length)
             {
                 case 0:
                     throw new Exceptions.InvalidSkypeParameterException();
                 case 1:
-                    return new User[] { getUser(inputNames[0]) };
+                    return new User[] { await getUser(inputNames[0]) };
                 default:
                     List<User> toReturn = new List<User>();
                     List<string> escapedNames = new List<string>();
@@ -52,8 +53,8 @@ namespace Skype4Sharp.Skype4SharpCore
                     using (var client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                        var result = client.SendAsync(profileRequest).Result;
-                        rawJSON = result.Content.ReadAsStringAsync().Result;
+                        var result = await client.SendAsync(profileRequest);
+                        rawJSON = await result.Content.ReadAsStringAsync();
                     }
                     dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
                     foreach (dynamic singleUserInfo in decodedJSON)

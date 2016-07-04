@@ -1,39 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace Skype4Sharp.Helpers
 {
     public static class Extensions
     {
-        public static ChatMessage SendMessage(this Chat targetChat, string newMessage, Enums.MessageType messageType = Enums.MessageType.Text)
+        public static async Task<ChatMessage> SendMessage(this Chat targetChat, string newMessage, Enums.MessageType messageType = Enums.MessageType.Text)
         {
-            return targetChat.parentSkype.SendMessage(targetChat, newMessage, messageType);
+            return await targetChat.parentSkype.SendMessage(targetChat, newMessage, messageType);
         }
-        public static ChatMessage SendMessage(this User targetUser, string newMessage, Enums.MessageType messageType = Enums.MessageType.Text)
+        public static async Task<ChatMessage> SendMessage(this User targetUser, string newMessage, Enums.MessageType messageType = Enums.MessageType.Text)
         {
-            return targetUser.parentSkype.SendMessage(targetUser.Username, newMessage, messageType);
+            return await targetUser.parentSkype.SendMessage(targetUser.Username, newMessage, messageType);
         }
-        public static void Add(this Chat targetChat, User targetUser)
+        public static async Task Add(this Chat targetChat, User targetUser)
         {
-            targetChat.Add(targetUser.Username);
+            await targetChat.Add(targetUser.Username);
         }
-        public static void Kick(this Chat targetChat, User targetUser)
+        public static async Task Kick(this Chat targetChat, User targetUser)
         {
-            targetChat.Kick(targetUser.Username);
+            await targetChat.Kick(targetUser.Username);
         }
-        public static void Promote(this Chat targetChat, User targetUser)
+        public static async Task Promote(this Chat targetChat, User targetUser)
         {
-            targetChat.SetAdmin(targetUser.Username);
+            await targetChat.SetAdmin(targetUser.Username);
         }
-        public static void Add(this User targetUser, string requestMessage)
+        public static async Task Add(this User targetUser, string requestMessage)
         {
-            targetUser.parentSkype.AddUser(targetUser.Username, requestMessage);
+            await targetUser.parentSkype.AddUser(targetUser.Username, requestMessage);
         }
-        public static void Remove(this User targetUser)
+        public static async Task Remove(this User targetUser)
         {
-            targetUser.parentSkype.RemoveUser(targetUser.Username);
+            await targetUser.parentSkype.RemoveUser(targetUser.Username);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Skype3D
             {
                 CookieContainer cookieContainer = await CookieManager.ReadCookiesFromDisk(App.cookieFilename);
                 App.mainSkype = new Skype4Sharp.Skype4Sharp(cookieContainer);
-                if (await Task.Run(() => App.mainSkype.Login()))
+                if (await App.mainSkype.Login())
                     CookieManager.WriteCookiesToDisk(App.cookieFilename, App.mainSkype.mainCookies);
                 else
                 {
@@ -47,9 +47,9 @@ namespace Skype3D
                 }
             }
             selfAvatarImage.Source = new BitmapImage(App.mainSkype.selfProfile.AvatarUri);
-            List<Skype4Sharp.Chat> recent = await Task.Run(() => App.mainSkype.GetRecent());
+            List<Skype4Sharp.Chat> recent = await App.mainSkype.GetRecent();
             recentListView.ItemsSource = recent;
-            List<Skype4Sharp.User> contacts = await Task.Run(() => App.mainSkype.GetContacts());
+            List<Skype4Sharp.User> contacts = await App.mainSkype.GetContacts();
             peopleListView.ItemsSource = contacts;
             progressBar.Visibility = Visibility.Collapsed;
         }

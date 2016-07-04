@@ -2,6 +2,7 @@
 using System.Text;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Skype4Sharp.Skype4SharpCore
@@ -14,17 +15,17 @@ namespace Skype4Sharp.Skype4SharpCore
         {
             parentSkype = skypeToUse;
         }
-        public void editMessage(ChatMessage messageInfo, string newMessage)
+        public async Task editMessage(ChatMessage messageInfo, string newMessage)
         {
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_POST(messageInfo.Chat.ChatLink + "/messages", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken }, new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{\"content\":\"" + newMessage.JsonEscape() + "\",\"messagetype\":\"" + ((messageInfo.Type == Enums.MessageType.RichText) ? "RichText" : "Text") + "\",\"contenttype\":\"text\",\"skypeeditedid\":\"" + messageInfo.ID + "\"}"), "application/json");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(webRequest).Wait();
+                await client.SendAsync(webRequest);
             }
         }
-        public ChatMessage createMessage(Chat targetChat, string chatMessage, Enums.MessageType messageType)
+        public async Task<ChatMessage> createMessage(Chat targetChat, string chatMessage, Enums.MessageType messageType)
         {
             ChatMessage toReturn = new ChatMessage(parentSkype);
             toReturn.Body = chatMessage;
@@ -32,21 +33,21 @@ namespace Skype4Sharp.Skype4SharpCore
             toReturn.Type = messageType;
             toReturn.ID = Helpers.Misc.getTime().ToString();
             toReturn.Sender = parentSkype.selfProfile;
-            sendChatmessage(toReturn);
+            await sendChatmessage(toReturn);
             return toReturn;
         }
-        private void sendChatmessage(ChatMessage messageToSend)
+        private async Task sendChatmessage(ChatMessage messageToSend)
         {
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_POST(messageToSend.Chat.ChatLink + "/messages", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken }, new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{\"content\":\"" + messageToSend.Body.JsonEscape() + "\",\"messagetype\":\"" + ((messageToSend.Type == Enums.MessageType.RichText) ? "RichText" : "Text") + "\",\"contenttype\":\"text\",\"clientmessageid\":\"" + messageToSend.ID + "\"}"), "application/json");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(webRequest).Wait();
+                await client.SendAsync(webRequest);
             }
         }
 
-        public List<Chat> getRecent()
+        public async Task<List<Chat>> getRecent()
         {
             List<Chat> toReturn = new List<Chat>();
             string startTime = Convert.ToString(Helpers.Misc.getLastWeekTime());
@@ -56,18 +57,18 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(webRequest).Result;
-                rawInfo = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(webRequest);
+                rawInfo = await result.Content.ReadAsStringAsync();
             }
             dynamic jsonObject = JsonConvert.DeserializeObject(rawInfo);
             foreach (dynamic chat in jsonObject.conversations)
             {
-                toReturn.Add(chatFromRecent(chat));
+                toReturn.Add(await chatFromRecent(chat));
             }
             return toReturn;
         }
 
-        public Chat chatFromRecent(dynamic jsonObject)
+        public async Task<Chat> chatFromRecent(dynamic jsonObject)
         {
             Chat toReturn = new Chat(parentSkype);
             toReturn.ChatLink = jsonObject.targetLink;
@@ -79,7 +80,7 @@ namespace Skype4Sharp.Skype4SharpCore
             }
             else
             {
-                User user = parentSkype.GetUser(toReturn.ID.Remove(0, 2));
+                User user = await parentSkype.GetUser(toReturn.ID.Remove(0, 2));
                 if (user.DisplayName != null && user.DisplayName != "")
                     toReturn.Topic = user.DisplayName;
                 else

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Skype4Sharp.Events
 {
@@ -13,24 +14,24 @@ namespace Skype4Sharp.Events
         {
             parentSkype = skypeToUse;
         }
-        public void Decline()
+        public async Task Decline()
         {
             HttpRequestMessage declineRequest = parentSkype.mainFactory.createWebRequest_PUT("https://api.skype.com/users/self/contacts/auth-request/" + Sender.Username + "/decline", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes(""), "application/x-www-form-urlencoded");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(declineRequest).Wait();
+                await client.SendAsync(declineRequest);
             }
         }
-        public void Accept()
+        public async Task Accept()
         {
             HttpRequestMessage acceptRequest = parentSkype.mainFactory.createWebRequest_PUT("https://api.skype.com/users/self/contacts/auth-request/" + Sender.Username + "/accept", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes(""), "application/x-www-form-urlencoded");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(acceptRequest).Wait();
+                await client.SendAsync(acceptRequest);
             }
         }
     }

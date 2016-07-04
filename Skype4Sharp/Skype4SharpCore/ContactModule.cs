@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,7 +19,7 @@ namespace Skype4Sharp.Skype4SharpCore
             parentSkype = skypeToUse;
             userModule = new UserModule(parentSkype);
         }
-        public List<User> getContacts()
+        public async Task<List<User>> getContacts()
         {
             List<User> toReturn = new List<User>();
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_GET("https://contacts.skype.com/contacts/v1/users/" + parentSkype.selfProfile.Username + "/contacts?$filter=type%20eq%20%27skype%27%20or%20type%20eq%20%27msn%27%20or%20type%20eq%20%27pstn%27%20or%20type%20eq%20%27agent%27&reason=default", new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } });
@@ -27,8 +28,8 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                var result = client.SendAsync(webRequest).Result;
-                rawInfo = result.Content.ReadAsStringAsync().Result;
+                var result = await client.SendAsync(webRequest);
+                rawInfo = await result.Content.ReadAsStringAsync();
             }
             dynamic jsonObject = JsonConvert.DeserializeObject(rawInfo);
             foreach (dynamic singleUser in jsonObject.contacts)
@@ -37,24 +38,24 @@ namespace Skype4Sharp.Skype4SharpCore
             }
             return toReturn;
         }
-        public void addUser(string targetUsername, string requestMessage)
+        public async Task addUser(string targetUsername, string requestMessage)
         {
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_PUT("https://api.skype.com/users/self/contacts/auth-request/" + targetUsername.ToLower(), new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("greeting=" + requestMessage.UrlEncode()), "application/x-www-form-urlencoded");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(webRequest).Wait();
+                await client.SendAsync(webRequest);
             }
         }
-        public void deleteUser(string targetUsername)
+        public async Task deleteUser(string targetUsername)
         {
             HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_DELETE("https://contacts.skype.com/contacts/v1/users/" + parentSkype.selfProfile.Username + "/contacts/skype/" + targetUsername.ToLower(), new string[][] { new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } });
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                client.SendAsync(webRequest).Wait();
+                await client.SendAsync(webRequest);
             }
         }
     }
