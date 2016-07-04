@@ -60,5 +60,10 @@ namespace Skype3D
                 await Task.Delay(1000);
             return Interoperation.levelLoaded;
         }
+
+        private void sendButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

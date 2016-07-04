@@ -11,14 +11,19 @@
         <SwapChainPanel x:Name="DXSwapChainPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Grid x:Name="unityMask" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="White"/>
         <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
-        <TextBox x:Name="messageTextBox" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" PlaceholderText="Tap to type"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="messageTextBox" Grid.Column="0" VerticalAlignment="Stretch" PlaceholderText="Tap to type"/>
+            <Button x:Name="sendButton" Grid.Column="1" Content="Send" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="80" Click="sendButton_Click" />
+        </Grid>
         <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click">
             <SymbolIcon Symbol="AllApps"/>
         </Button>
     </Grid>
-    <Page.BottomAppBar>
-        <CommandBar>
-        
-        </CommandBar>
-    </Page.BottomAppBar>
 </Page>
