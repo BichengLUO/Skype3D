@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -28,6 +29,8 @@ namespace Skype3D
         public ChatPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+
             AppCallbacks appCallbacks = AppCallbacks.Instance;
             // Setup scripting bridge
             _bridge = new WinRTBridge.WinRTBridge();
@@ -36,6 +39,20 @@ namespace Skype3D
             appCallbacks.SetSwapChainPanel(DXSwapChainPanel);
             appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
             appCallbacks.InitializeD3DXAML();
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(() => {
+                while (!Interop.levelLoaded) ;
+            });
+            unityMask.Visibility = Visibility.Collapsed;
+            progressBar.Visibility = Visibility.Collapsed;
         }
     }
 }
