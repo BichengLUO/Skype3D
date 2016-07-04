@@ -18,3 +18,8 @@
 /Skype3D/obj/ARM/Release
 /Skype4Sharp/bin/ARM/Release
 /Skype4Sharp/obj/ARM/Release
+/Skype3D/bin/x64/Debug
+/Skype3D/bin/x86/Release
+/Skype3D/obj/x86/Release
+/Skype4Sharp/bin
+/Skype4Sharp/obj/x86/Release

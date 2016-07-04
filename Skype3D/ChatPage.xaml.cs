@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -48,11 +49,16 @@ namespace Skype3D
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() => {
-                while (!Interop.levelLoaded) ;
-            });
+            await waitForLevel();
             unityMask.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
+        }
+
+        private async Task<bool> waitForLevel()
+        {
+            while (!Interoperation.levelLoaded)
+                await Task.Delay(1000);
+            return Interoperation.levelLoaded;
         }
     }
 }
