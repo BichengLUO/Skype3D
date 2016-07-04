@@ -14,3 +14,7 @@
 /Skype4Sharp/obj/x64/Debug
 *.pdb
 /Players/UAP
+/Skype3D/bin/ARM/Release
+/Skype3D/obj/ARM/Release
+/Skype4Sharp/bin/ARM/Release
+/Skype4Sharp/obj/ARM/Release

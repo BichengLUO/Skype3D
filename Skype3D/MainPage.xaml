@@ -11,7 +11,7 @@
         <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
         <Pivot Title="Skype3D">
             <PivotItem Header="recent">
-                <ListView x:Name="recentListView">
+                <ListView x:Name="recentListView" IsItemClickEnabled="True" ItemClick="recentListView_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -30,7 +30,7 @@
                 </ListView>
             </PivotItem>
             <PivotItem Header="people">
-                <ListView x:Name="peopleListView">
+                <ListView x:Name="peopleListView" IsItemClickEnabled="True" ItemClick="peopleListView_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

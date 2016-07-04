@@ -58,5 +58,15 @@ namespace Skype3D
         {
             Frame.Navigate(typeof(ProfilePage));
         }
+
+        private void recentListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(ChatPage));
+        }
+
+        private void peopleListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(ChatPage));
+        }
     }
 }
