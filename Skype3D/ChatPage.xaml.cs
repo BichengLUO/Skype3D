@@ -27,6 +27,7 @@ namespace Skype3D
     {
         private WinRTBridge.WinRTBridge _bridge;
         private Skype4Sharp.Chat chat;
+        private Skype4Sharp.User user;
 
         public ChatPage()
         {
@@ -44,7 +45,10 @@ namespace Skype3D
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            chat = (Skype4Sharp.Chat)e.Parameter;
+            if (e.Parameter is Skype4Sharp.Chat)
+                chat = (Skype4Sharp.Chat)e.Parameter;
+            else if (e.Parameter is Skype4Sharp.User)
+                user = (Skype4Sharp.User)e.Parameter;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -69,7 +73,10 @@ namespace Skype3D
         private async void sendButton_Click(object sender, RoutedEventArgs e)
         {
             string messageText = messageTextBox.Text;
-            await App.mainSkype.SendMessage(chat, messageText);
+            if (chat != null)
+                await App.mainSkype.SendMessage(chat, messageText);
+            else if (user != null)
+                await App.mainSkype.SendMessage(user, messageText);
             messageTextBox.Text = "";
         }
     }

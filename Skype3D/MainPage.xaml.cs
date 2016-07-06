@@ -89,7 +89,16 @@ namespace Skype3D
 
         private void peopleListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(ChatPage));
+            Skype4Sharp.User user = (Skype4Sharp.User)e.ClickedItem;
+            foreach (Skype4Sharp.Chat chat in recent)
+            {
+                if (chat.ChatLink.Contains(user.Username))
+                {
+                    Frame.Navigate(typeof(ChatPage), chat);
+                    return;
+                }
+            }
+            Frame.Navigate(typeof(ChatPage), user);
         }
 
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)

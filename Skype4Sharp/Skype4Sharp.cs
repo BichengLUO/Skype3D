@@ -103,6 +103,15 @@ namespace Skype4Sharp
             blockUnauthorized();
             return await mainMessageModule.createMessage(targetChat, newMessage, messageType);
         }
+        public async Task<ChatMessage> SendMessage(User targetUser, string newMessage, MessageType messageType = MessageType.Text)
+        {
+            blockUnauthorized();
+            Chat targetChat = new Chat(this);
+            targetChat.ID = targetUser.Username;
+            targetChat.ChatLink = clientGatewayMessengerDomain + "/v1/users/ME/conversations/" + targetChat.ID;
+            targetChat.Type = Enums.ChatType.Private;
+            return await mainMessageModule.createMessage(targetChat, newMessage, messageType);
+        }
         public async Task<ChatMessage> SendMessage(string targetUser, string newMessage, MessageType messageType = MessageType.Text)
         {
             blockUnauthorized();
