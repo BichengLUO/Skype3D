@@ -199,7 +199,7 @@ namespace Skype4Sharp.Events
                                             {
                                                 newMessageBody = newMessageBody.StripTags();
                                             }
-                                            newMessage.Body = newMessageBody.HtmlDecode();
+                                            newMessage.setBody(newMessageBody.HtmlDecode());
                                             parentSkype.invokeMessageReceived(newMessage);
                                         }
                                         else
@@ -213,11 +213,11 @@ namespace Skype4Sharp.Events
                                                 {
                                                     newMessageBody = newMessageBody.StripTags();
                                                 }
-                                                newMessage.Body = newMessageBody.HtmlDecode();
+                                                newMessage.setBody(newMessageBody.HtmlDecode());
                                             }
                                             catch
                                             {
-                                                newMessage.Body = "";
+                                                newMessage.setBody("");
                                             }
                                             parentSkype.invokeMessageEdited(newMessage);
                                         }

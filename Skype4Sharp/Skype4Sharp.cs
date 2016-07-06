@@ -32,6 +32,7 @@ namespace Skype4Sharp
         public LoginState authState = LoginState.Unknown;
         public SkypeTokenType tokenType = SkypeTokenType.Standard;
         public bool ignoreOwnEvents = true;
+        public bool isPolling = false;
 
         private Poller mainPoll;
         private UserModule mainUserModule;
@@ -65,11 +66,13 @@ namespace Skype4Sharp
         public void StartPoll()
         {
             blockUnauthorized();
+            isPolling = true;
             mainPoll.StartPoll();
         }
         public void StopPoll()
         {
             blockUnauthorized();
+            isPolling = false;
             mainPoll.StopPoll();
         }
         public async Task<bool> Login(bool bypassLogin = false)

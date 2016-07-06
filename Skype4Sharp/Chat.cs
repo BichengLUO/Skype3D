@@ -13,6 +13,7 @@ namespace Skype4Sharp
         public string ChatLink { get; set; }
         public string LastMessage { get; set; }
         public string Topic { get; set; }
+        public bool Unread { get; set; }
         public Uri AvatarUri { get; set; }
         public Enums.ChatType Type;
         public Skype4Sharp parentSkype;

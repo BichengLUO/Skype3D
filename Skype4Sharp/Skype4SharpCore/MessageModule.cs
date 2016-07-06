@@ -28,7 +28,7 @@ namespace Skype4Sharp.Skype4SharpCore
         public async Task<ChatMessage> createMessage(Chat targetChat, string chatMessage, Enums.MessageType messageType)
         {
             ChatMessage toReturn = new ChatMessage(parentSkype);
-            toReturn.Body = chatMessage;
+            toReturn.setBody(chatMessage);
             toReturn.Chat = targetChat;
             toReturn.Type = messageType;
             toReturn.ID = Helpers.Misc.getTime().ToString();
@@ -38,7 +38,7 @@ namespace Skype4Sharp.Skype4SharpCore
         }
         private async Task sendChatmessage(ChatMessage messageToSend)
         {
-            HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_POST(messageToSend.Chat.ChatLink + "/messages", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken }, new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{\"content\":\"" + messageToSend.Body.JsonEscape() + "\",\"messagetype\":\"" + ((messageToSend.Type == Enums.MessageType.RichText) ? "RichText" : "Text") + "\",\"contenttype\":\"text\",\"clientmessageid\":\"" + messageToSend.ID + "\"}"), "application/json");
+            HttpRequestMessage webRequest = parentSkype.mainFactory.createWebRequest_POST(messageToSend.Chat.ChatLink + "/messages", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken }, new string[] { "X-Skypetoken", parentSkype.authTokens.SkypeToken } }, Encoding.ASCII.GetBytes("{\"content\":\"" + messageToSend.getBody().JsonEscape() + "\",\"messagetype\":\"" + ((messageToSend.Type == Enums.MessageType.RichText) ? "RichText" : "Text") + "\",\"contenttype\":\"text\",\"clientmessageid\":\"" + messageToSend.ID + "\"}"), "application/json");
             using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
             using (var client = new HttpClient(handler))
             {

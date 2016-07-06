@@ -13,23 +13,20 @@
             parentSkype = skypeToUse;
             _Body = null;
         }
-        public string Body
+        public string getBody()
         {
-            get
+           return _Body;
+        }
+        public async void setBody(string value)
+        {
+            if (_Body == null)
             {
-                return _Body;
+                _Body = value;
             }
-            set
+            else
             {
-                if (_Body == null)
-                {
-                    _Body = value;
-                }
-                else
-                {
-                    _Body = value;
-                    parentSkype.editMessage(this, _Body);
-                }
+                _Body = value;
+                await parentSkype.editMessage(this, _Body);
             }
         }
     }
