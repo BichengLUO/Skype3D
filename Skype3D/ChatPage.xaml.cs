@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +27,7 @@ namespace Skype3D
     /// </summary>
     public sealed partial class ChatPage : Page
     {
+        private CoreDispatcher dispatcher;
         private WinRTBridge.WinRTBridge _bridge;
         private Skype4Sharp.Chat chat;
         private Skype4Sharp.User user;
@@ -42,6 +45,8 @@ namespace Skype3D
             appCallbacks.SetSwapChainPanel(DXSwapChainPanel);
             appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
             appCallbacks.InitializeD3DXAML();
+            dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+            App.mainSkype.messageReceived += messageReceived;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -64,6 +69,8 @@ namespace Skype3D
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            senderBubble.Visibility = Visibility.Collapsed;
+            receiverBubble.Visibility = Visibility.Collapsed;
             await waitForLevel();
             unityMask.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
@@ -83,6 +90,23 @@ namespace Skype3D
             else if (user != null)
                 await App.mainSkype.SendMessage(user, messageText);
             messageTextBox.Text = "";
+            sentMessageBlock.Text = messageText;
+            senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
+            senderBubble.Visibility = Visibility.Visible;
+        }
+
+        private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
+        {
+            if ((chat != null && pMessage.Chat.ID == chat.ID) ||
+                (user != null && pMessage.Sender.Username == user.Username))
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    receivedMessageBlock.Text = pMessage.getBody();
+                    receiverNameBlock.Text = pMessage.Sender.DisplayName;
+                    receiverBubble.Visibility = Visibility.Visible;
+                });
+            }
         }
     }
 }
