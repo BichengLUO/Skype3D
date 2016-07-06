@@ -43,7 +43,7 @@ namespace Skype4Sharp.Skype4SharpCore
             using (var client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
-                await client.SendAsync(webRequest);
+                var result = await client.SendAsync(webRequest);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Skype4Sharp.Skype4SharpCore
         public async Task<Chat> chatFromRecent(dynamic jsonObject)
         {
             Chat toReturn = new Chat(parentSkype);
-            toReturn.ChatLink = jsonObject.targetLink;
+            toReturn.ChatLink = jsonObject.lastMessage.conversationLink;
             toReturn.ID = jsonObject.id;
             if (jsonObject.threadProperties != null)
             {

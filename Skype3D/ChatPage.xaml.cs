@@ -26,6 +26,7 @@ namespace Skype3D
     public sealed partial class ChatPage : Page
     {
         private WinRTBridge.WinRTBridge _bridge;
+        private Skype4Sharp.Chat chat;
 
         public ChatPage()
         {
@@ -40,6 +41,10 @@ namespace Skype3D
             appCallbacks.SetSwapChainPanel(DXSwapChainPanel);
             appCallbacks.SetCoreWindowEvents(Window.Current.CoreWindow);
             appCallbacks.InitializeD3DXAML();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            chat = (Skype4Sharp.Chat)e.Parameter;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -61,9 +66,11 @@ namespace Skype3D
             return Interoperation.levelLoaded;
         }
 
-        private void sendButton_Click(object sender, RoutedEventArgs e)
+        private async void sendButton_Click(object sender, RoutedEventArgs e)
         {
-
+            string messageText = messageTextBox.Text;
+            await App.mainSkype.SendMessage(chat, messageText);
+            messageTextBox.Text = "";
         }
     }
 }

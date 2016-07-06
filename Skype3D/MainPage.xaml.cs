@@ -62,10 +62,16 @@ namespace Skype3D
                 App.mainSkype.StartPoll();
             }
             selfAvatarImage.Source = new BitmapImage(App.mainSkype.selfProfile.AvatarUri);
-            recent = await App.mainSkype.GetRecent();
-            recentListView.ItemsSource = recent;
-            contacts = await App.mainSkype.GetContacts();
-            peopleListView.ItemsSource = contacts;
+            if (recent == null)
+            {
+                recent = await App.mainSkype.GetRecent();
+                recentListView.ItemsSource = recent;
+            }
+            if (contacts == null)
+            {
+                contacts = await App.mainSkype.GetContacts();
+                peopleListView.ItemsSource = contacts;
+            }
             progressBar.Visibility = Visibility.Collapsed;
         }
 
@@ -76,7 +82,9 @@ namespace Skype3D
 
         private void recentListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(ChatPage));
+            Skype4Sharp.Chat chat = (Skype4Sharp.Chat)e.ClickedItem;
+            chat.Unread = false;
+            Frame.Navigate(typeof(ChatPage), chat);
         }
 
         private void peopleListView_ItemClick(object sender, ItemClickEventArgs e)
