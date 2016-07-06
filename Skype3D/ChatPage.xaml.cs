@@ -46,9 +46,15 @@ namespace Skype3D
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is Skype4Sharp.Chat)
+            {
                 chat = (Skype4Sharp.Chat)e.Parameter;
+                chatTopicBlock.Text = chat.Topic;
+            }
             else if (e.Parameter is Skype4Sharp.User)
+            {
                 user = (Skype4Sharp.User)e.Parameter;
+                chatTopicBlock.Text = user.DisplayName;
+            }
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -63,11 +69,10 @@ namespace Skype3D
             progressBar.Visibility = Visibility.Collapsed;
         }
 
-        private async Task<bool> waitForLevel()
+        private async Task waitForLevel()
         {
             while (!Interoperation.levelLoaded)
                 await Task.Delay(1000);
-            return Interoperation.levelLoaded;
         }
 
         private async void sendButton_Click(object sender, RoutedEventArgs e)

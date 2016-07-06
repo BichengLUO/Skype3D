@@ -55,6 +55,8 @@ namespace Skype3D
                     Frame.Navigate(typeof(LoginPage));
                     return;
                 }
+                recent = null;
+                contacts = null;
             }
             if (!App.mainSkype.isPolling)
             {
