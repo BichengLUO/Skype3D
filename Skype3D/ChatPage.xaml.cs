@@ -85,14 +85,14 @@ namespace Skype3D
         private async void sendButton_Click(object sender, RoutedEventArgs e)
         {
             string messageText = messageTextBox.Text;
-            if (chat != null)
-                await App.mainSkype.SendMessage(chat, messageText);
-            else if (user != null)
-                await App.mainSkype.SendMessage(user, messageText);
             messageTextBox.Text = "";
             sentMessageBlock.Text = messageText;
             senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
             senderBubble.Visibility = Visibility.Visible;
+            if (chat != null)
+                await App.mainSkype.SendMessage(chat, messageText);
+            else if (user != null)
+                await App.mainSkype.SendMessage(user, messageText);
         }
 
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
