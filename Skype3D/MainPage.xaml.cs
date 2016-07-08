@@ -31,6 +31,7 @@ namespace Skype3D
         private CoreDispatcher dispatcher;
         private List<Skype4Sharp.Chat> recent;
         private List<Skype4Sharp.User> contacts;
+        private Dictionary<string, int> unreadRecord = new Dictionary<string, int>();
         public MainPage()
         {
             this.InitializeComponent();
@@ -85,8 +86,7 @@ namespace Skype3D
         private void recentListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Skype4Sharp.Chat chat = (Skype4Sharp.Chat)e.ClickedItem;
-            chat.Unread = false;
-            Frame.Navigate(typeof(ChatPage), chat);
+            enterInChat(chat);
         }
 
         private void peopleListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -96,27 +96,54 @@ namespace Skype3D
             {
                 if (chat.ChatLink.Contains(user.Username))
                 {
-                    Frame.Navigate(typeof(ChatPage), chat);
+                    enterInChat(chat);
                     return;
                 }
             }
             Frame.Navigate(typeof(ChatPage), user);
         }
 
+        private void enterInChat(Skype4Sharp.Chat chat)
+        {
+            chat.Unread = false;
+            if (unreadRecord.ContainsKey(chat.ID))
+                unreadRecord.Remove(chat.ID);
+            refreshUnreadCount();
+
+            recentListView.ItemsSource = null;
+            recentListView.ItemsSource = recent;
+            Frame.Navigate(typeof(ChatPage), chat);
+        }
+
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
         {
             recent = await App.mainSkype.GetRecent();
+            if (unreadRecord.ContainsKey(pMessage.Chat.ID))
+                unreadRecord[pMessage.Chat.ID]++;
+            else
+                unreadRecord[pMessage.Chat.ID] = 1;
+            
             foreach (Skype4Sharp.Chat chat in recent)
             {
-                if (chat.ID == pMessage.Chat.ID)
-                {
+                if (unreadRecord.ContainsKey(chat.ID))
                     chat.Unread = true;
-                    break;
-                }
             }
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
                 recentListView.ItemsSource = recent;
+                refreshUnreadCount();
             });
+        }
+
+        private void refreshUnreadCount()
+        {
+            int totalUnreadCount = 0;
+            foreach (KeyValuePair<string, int> entry in unreadRecord)
+                totalUnreadCount += entry.Value;
+            unreadCountBlock.Text = totalUnreadCount.ToString();
+            if (totalUnreadCount == 0)
+                unreadCountLabel.Visibility = Visibility.Collapsed;
+            else
+                unreadCountLabel.Visibility = Visibility.Visible;
         }
     }
 
