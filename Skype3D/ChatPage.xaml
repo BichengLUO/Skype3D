@@ -6,6 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Storyboard x:Name="senderBubblePop">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="senderBubble" From="0" To="1" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="senderBubbleTrans" From="20" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+        <Storyboard x:Name="receiverBubblePop">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="receiverBubble" From="0" To="1" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="receiverBubbleTrans" From="20" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <SwapChainPanel x:Name="DXSwapChainPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
@@ -19,7 +29,7 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="messageTextBox" Grid.Column="0" VerticalAlignment="Stretch" PlaceholderText="Tap to type"/>
+            <TextBox x:Name="messageTextBox" Grid.Column="0" VerticalAlignment="Stretch" PlaceholderText="Tap to type" KeyDown="messageTextBox_KeyDown" TextWrapping="Wrap"/>
             <Button x:Name="sendButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="60" Click="sendButton_Click" Background="DodgerBlue" Foreground="White">
                 <SymbolIcon Symbol="Send"/>
             </Button>
@@ -37,14 +47,20 @@
             </Ellipse.Fill>
         </Ellipse>
         <TextBlock x:Name="chatTopicBlock" HorizontalAlignment="Left" Margin="65,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="DarkGray" FontSize="20" FontWeight="SemiBold" Text="name"/>
-        <Grid x:Name="senderBubble" HorizontalAlignment="Right" Margin="0,0,30,50" VerticalAlignment="Bottom" MaxWidth="200" MinWidth="180">
+        <Grid x:Name="senderBubble" HorizontalAlignment="Right" Margin="0,0,30,50" VerticalAlignment="Bottom" MaxWidth="200" MinWidth="180" Opacity="0">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="senderBubbleTrans" />
+            </Grid.RenderTransform>
             <StackPanel Background="LightCyan" Opacity="0.8" Margin="0,0,0,20">
                 <TextBlock x:Name="senderNameBlock" TextWrapping="Wrap" Margin="10,10,10,0" Text="my name" FontWeight="Bold" Foreground="DeepSkyBlue" FontSize="13"/>
                 <TextBlock x:Name="sentMessageBlock" TextWrapping="Wrap" Margin="10,0,10,10" Text="content"/>
             </StackPanel>
             <Polygon Fill="LightCyan" Opacity="0.8" VerticalAlignment="Bottom" Points="150,0,170,0,170,20"/>
         </Grid>
-        <Grid x:Name="receiverBubble" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" MaxWidth="150" MinWidth="140">
+        <Grid x:Name="receiverBubble" HorizontalAlignment="Left" Margin="20,100,0,0" VerticalAlignment="Top" MaxWidth="150" MinWidth="140" Opacity="0">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="receiverBubbleTrans" />
+            </Grid.RenderTransform>
             <StackPanel Background="PowderBlue" Opacity="0.8" Margin="0,0,0,20">
                 <TextBlock x:Name="receiverNameBlock" TextWrapping="Wrap" Margin="10,10,10,0" Text="your name" FontWeight="Bold" Foreground="DeepSkyBlue" FontSize="13"/>
                 <TextBlock x:Name="receivedMessageBlock" TextWrapping="Wrap" Margin="10,0,10,10" Text="content"/>

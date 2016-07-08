@@ -40,6 +40,8 @@ namespace Skype3D
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             appCallbacks = new AppCallbacks();
+            ApplicationView.PreferredLaunchViewSize = new Size(500, 800);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
         }
 
         /// <summary>

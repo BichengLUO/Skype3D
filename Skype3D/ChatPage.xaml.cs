@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.System;
 using UnityPlayer;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -71,8 +72,6 @@ namespace Skype3D
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            senderBubble.Visibility = Visibility.Collapsed;
-            receiverBubble.Visibility = Visibility.Collapsed;
             await waitForLevel();
             unityMask.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
@@ -86,15 +85,23 @@ namespace Skype3D
 
         private async void sendButton_Click(object sender, RoutedEventArgs e)
         {
+            await sendMessage();
+        }
+
+        private async Task sendMessage()
+        {
             string messageText = messageTextBox.Text;
-            messageTextBox.Text = "";
-            sentMessageBlock.Text = messageText;
-            senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
-            senderBubble.Visibility = Visibility.Visible;
-            if (chat != null)
-                await App.mainSkype.SendMessage(chat, messageText);
-            else if (user != null)
-                await App.mainSkype.SendMessage(user, messageText);
+            if (messageText != "")
+            {
+                messageTextBox.Text = "";
+                sentMessageBlock.Text = messageText;
+                senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
+                senderBubblePop.Begin();
+                if (chat != null)
+                    await App.mainSkype.SendMessage(chat, messageText);
+                else if (user != null)
+                    await App.mainSkype.SendMessage(user, messageText);
+            }
         }
 
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
@@ -106,8 +113,16 @@ namespace Skype3D
                 {
                     receivedMessageBlock.Text = pMessage.getBody();
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
-                    receiverBubble.Visibility = Visibility.Visible;
+                    receiverBubblePop.Begin();
                 });
+            }
+        }
+
+        private async void messageTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                await sendMessage();
             }
         }
     }
