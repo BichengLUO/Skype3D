@@ -66,8 +66,8 @@
         <TextBlock x:Name="unreadCountBlock" HorizontalAlignment="Left" Margin="90,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Foreground="Orange" FontSize="20" FontWeight="SemiBold"/>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Label="new chat" Icon="Message"/>
+        <CommandBar Background="DodgerBlue" Foreground="White">
+            <AppBarButton Label="new chat" Icon="Message" Foreground="White"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

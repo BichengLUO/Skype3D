@@ -54,11 +54,13 @@ namespace Skype3D
             {
                 chat = (Skype4Sharp.Chat)e.Parameter;
                 chatTopicBlock.Text = chat.Topic;
+                avatarBitmap.UriSource = chat.AvatarUri;
             }
             else if (e.Parameter is Skype4Sharp.User)
             {
                 user = (Skype4Sharp.User)e.Parameter;
                 chatTopicBlock.Text = user.DisplayName;
+                avatarBitmap.UriSource = user.AvatarUri;
             }
         }
 

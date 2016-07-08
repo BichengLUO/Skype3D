@@ -19,12 +19,12 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="nameBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="DarkGray" FontSize="18"/>
         <Image x:Name="selfAvatarImage" Width="100" Height="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,70,10,10"/>
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click">
+        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White">
             <SymbolIcon Symbol="AllApps"/>
         </Button>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar>
+        <CommandBar Background="DodgerBlue" Foreground="White">
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="signOutButton" Label="sign out" Click="signOutButton_Click"/>
                 <AppBarButton x:Name="helpButton" Label="help"/>

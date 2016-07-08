@@ -4,5 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Skype3D"
     RequestedTheme="Light">
-
+    <Application.Resources>
+        <x:Double x:Key="PivotHeaderItemFontSize">30</x:Double>
+    </Application.Resources>
 </Application>
