@@ -151,7 +151,7 @@ namespace Skype3D
         }
     }
 
-    class UnreadToColorConverter : IValueConverter
+    public class UnreadToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

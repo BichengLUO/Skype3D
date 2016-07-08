@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="Skype3D.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Skype3D"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <local:SelfAlignmentConverter x:Key="selfToAlignment"/>
+        <local:SelfColorConverter x:Key="selfToColor"/>
+        <local:SelfBubblePointsConverter x:Key="selfToPoints"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White">
+            <SymbolIcon Symbol="ContactPresence"/>
+        </Button>
+        <Ellipse x:Name="unreadMark" Fill="Orange" Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,5,0"/>
+        <Ellipse Width="50" Height="50" Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Ellipse.Fill>
+                <ImageBrush>
+                    <ImageBrush.ImageSource>
+                        <BitmapImage x:Name="avatarBitmap" UriSource="ms-appx:///Assets/default-avatar.png" />
+                    </ImageBrush.ImageSource>
+                </ImageBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <TextBlock x:Name="chatTopicBlock" HorizontalAlignment="Left" Margin="65,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="DarkGray" FontSize="20" FontWeight="SemiBold" Text="name"/>
+        <ListView x:Name="historyListView" Margin="0,80,0,0" SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="{Binding Sender, Converter={StaticResource selfToAlignment}}" MaxWidth="200" MinWidth="180">
+                        <StackPanel Background="{Binding Sender, Converter={StaticResource selfToColor}}" Margin="0,0,0,20">
+                            <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Text="{Binding Sender.DisplayName}" FontWeight="Bold" Foreground="DeepSkyBlue" FontSize="13"/>
+                            <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" Text="{Binding Body}"/>
+                        </StackPanel>
+                        <Polygon Fill="{Binding Sender, Converter={StaticResource selfToColor}}" VerticalAlignment="Bottom" Points="{Binding Sender, Converter={StaticResource selfToPoints}}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
+    </Grid>
+</Page>

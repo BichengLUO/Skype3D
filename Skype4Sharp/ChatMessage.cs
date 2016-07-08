@@ -2,7 +2,7 @@
 {
     public class ChatMessage
     {
-        public User Sender;
+        public User Sender { get; set; }
         public Chat Chat;
         private string _Body;
         public string ID;
@@ -13,21 +13,10 @@
             parentSkype = skypeToUse;
             _Body = null;
         }
-        public string getBody()
+        public string Body
         {
-           return _Body;
-        }
-        public async void setBody(string value)
-        {
-            if (_Body == null)
-            {
-                _Body = value;
-            }
-            else
-            {
-                _Body = value;
-                await parentSkype.editMessage(this, _Body);
-            }
+            get { return _Body;}
+            set { _Body = value; }
         }
     }
 }

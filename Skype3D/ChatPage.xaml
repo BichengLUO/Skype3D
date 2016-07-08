@@ -71,6 +71,7 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar Background="DodgerBlue" Foreground="White">
+            <AppBarButton x:Name="historyButton" Foreground="White" Icon="Comment" Label="history" Click="historyButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

@@ -64,6 +64,7 @@ namespace Skype3D
                 user = (Skype4Sharp.User)e.Parameter;
                 chatTopicBlock.Text = user.DisplayName;
                 avatarBitmap.UriSource = user.AvatarUri;
+                historyButton.Visibility = Visibility.Collapsed;
             }
             int totalUnreadCount = 0;
             foreach (KeyValuePair<string, int> entry in App.unreadRecord)
@@ -143,7 +144,7 @@ namespace Skype3D
             {
                 await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    receivedMessageBlock.Text = pMessage.getBody();
+                    receivedMessageBlock.Text = pMessage.Body;
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
                 });
@@ -163,6 +164,11 @@ namespace Skype3D
             {
                 await sendMessage();
             }
+        }
+
+        private void historyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HistoryPage), chat);
         }
     }
 }

@@ -22,6 +22,28 @@ namespace Skype4Sharp
         {
             parentSkype = skypeToUse;
         }
+        public async Task<List<ChatMessage>> getMessageHistory()
+        {
+            User[] participants = await getParticipants();
+            HttpRequestMessage userListRequest = parentSkype.mainFactory.createWebRequest_GET(clientGatewayMessengerDomain + "/v1/users/ME/conversations/" + ID + "/messages?startTime=0&pageSize=51&view=msnp24Equivalent", new string[][] { new string[] { "RegistrationToken", parentSkype.authTokens.RegistrationToken } });
+            string rawJSON = "";
+            using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
+                var result = await client.SendAsync(userListRequest);
+                rawJSON = await result.Content.ReadAsStringAsync();
+            }
+            List<ChatMessage> messages = new List<ChatMessage>();
+            dynamic decodedJSON = JsonConvert.DeserializeObject(rawJSON);
+            foreach (dynamic message in decodedJSON.messages)
+            {
+                if (message.messagetype == "Text" || message.messagetype == "RichText")
+                    messages.Add(messageFromJson(message, participants));
+            }
+            messages.Reverse();
+            return messages;
+        }
         public async Task<User[]> getParticipants()
         {
             if (Type == Enums.ChatType.Private)
@@ -122,6 +144,27 @@ namespace Skype4Sharp
             {
                 throw new Exceptions.InvalidSkypeActionException("This is not available in private messages");
             }
+        }
+
+        public ChatMessage messageFromJson(dynamic jsonObject, User[] participants)
+        {
+            ChatMessage message = new ChatMessage(parentSkype);
+            message.Chat = this;
+            message.ID = jsonObject.clientmessageid;
+            message.Body = jsonObject.content;
+            if (jsonObject.messagetype == "Text")
+                message.Type = Enums.MessageType.Text;
+            else if (jsonObject.messagetype == "RichText")
+                message.Type = Enums.MessageType.RichText;
+            foreach (User user in participants)
+            {
+                if (((string)jsonObject.from).Contains(user.Username))
+                {
+                    message.Sender = user;
+                    break;
+                }
+            }
+            return message;
         }
     }
 }
