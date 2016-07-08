@@ -48,6 +48,8 @@ namespace Skype3D
             appCallbacks.InitializeD3DXAML();
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
             App.mainSkype.messageReceived += messageReceived;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -63,11 +65,40 @@ namespace Skype3D
                 chatTopicBlock.Text = user.DisplayName;
                 avatarBitmap.UriSource = user.AvatarUri;
             }
+            int totalUnreadCount = 0;
+            foreach (KeyValuePair<string, int> entry in App.unreadRecord)
+                totalUnreadCount += entry.Value;
+            if (totalUnreadCount == 0)
+                unreadMark.Visibility = Visibility.Collapsed;
+            else
+                unreadMark.Visibility = Visibility.Visible;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
+            clearUnreadBeforeGoBack();
+        }
+
+        private void clearUnreadBeforeGoBack()
+        {
+            if (chat != null && App.unreadRecord.ContainsKey(chat.ID))
+                App.unreadRecord.Remove(chat.ID);
             Frame.GoBack();
+        }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+                return;
+
+            // Navigate back if possible, and if the event has not 
+            // already been handled .
+            if (rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                clearUnreadBeforeGoBack();
+            }
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -101,6 +132,7 @@ namespace Skype3D
                     await App.mainSkype.SendMessage(chat, messageText);
                 else if (user != null)
                     await App.mainSkype.SendMessage(user, messageText);
+                App.recentNeedUpdate = true;
             }
         }
 
@@ -114,6 +146,13 @@ namespace Skype3D
                     receivedMessageBlock.Text = pMessage.getBody();
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
+                });
+            }
+            else
+            {
+                await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    unreadMark.Visibility = Visibility.Visible;
                 });
             }
         }

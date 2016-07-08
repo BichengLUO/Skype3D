@@ -30,7 +30,8 @@ namespace Skype3D
         private AppCallbacks appCallbacks;
         public static Skype4Sharp.Skype4Sharp mainSkype;
         public static string cookieFilename = "cookies";
-        public static int unreadCount = 0;
+        public static Dictionary<string, int> unreadRecord = new Dictionary<string, int>();
+        public static bool recentNeedUpdate = false;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().

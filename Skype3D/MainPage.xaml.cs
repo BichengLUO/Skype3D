@@ -31,7 +31,7 @@ namespace Skype3D
         private CoreDispatcher dispatcher;
         private List<Skype4Sharp.Chat> recent;
         private List<Skype4Sharp.User> contacts;
-        private Dictionary<string, int> unreadRecord = new Dictionary<string, int>();
+        
         public MainPage()
         {
             this.InitializeComponent();
@@ -65,10 +65,12 @@ namespace Skype3D
                 App.mainSkype.StartPoll();
             }
             selfAvatarImage.Source = new BitmapImage(App.mainSkype.selfProfile.AvatarUri);
-            if (recent == null)
+            if (recent == null || App.recentNeedUpdate)
             {
                 recent = await App.mainSkype.GetRecent();
                 recentListView.ItemsSource = recent;
+                App.recentNeedUpdate = false;
+                refreshUnreadCount();
             }
             if (contacts == null)
             {
@@ -106,30 +108,32 @@ namespace Skype3D
         private void enterInChat(Skype4Sharp.Chat chat)
         {
             chat.Unread = false;
-            if (unreadRecord.ContainsKey(chat.ID))
-                unreadRecord.Remove(chat.ID);
+            if (App.unreadRecord.ContainsKey(chat.ID))
+                App.unreadRecord.Remove(chat.ID);
             refreshUnreadCount();
 
             recentListView.ItemsSource = null;
             recentListView.ItemsSource = recent;
+            App.recentNeedUpdate = false;
             Frame.Navigate(typeof(ChatPage), chat);
         }
 
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
         {
             recent = await App.mainSkype.GetRecent();
-            if (unreadRecord.ContainsKey(pMessage.Chat.ID))
-                unreadRecord[pMessage.Chat.ID]++;
+            if (App.unreadRecord.ContainsKey(pMessage.Chat.ID))
+                App.unreadRecord[pMessage.Chat.ID]++;
             else
-                unreadRecord[pMessage.Chat.ID] = 1;
+                App.unreadRecord[pMessage.Chat.ID] = 1;
             
             foreach (Skype4Sharp.Chat chat in recent)
             {
-                if (unreadRecord.ContainsKey(chat.ID))
+                if (App.unreadRecord.ContainsKey(chat.ID))
                     chat.Unread = true;
             }
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
                 recentListView.ItemsSource = recent;
+                App.recentNeedUpdate = false;
                 refreshUnreadCount();
             });
         }
@@ -137,7 +141,7 @@ namespace Skype3D
         private void refreshUnreadCount()
         {
             int totalUnreadCount = 0;
-            foreach (KeyValuePair<string, int> entry in unreadRecord)
+            foreach (KeyValuePair<string, int> entry in App.unreadRecord)
                 totalUnreadCount += entry.Value;
             unreadCountBlock.Text = totalUnreadCount.ToString();
             if (totalUnreadCount == 0)
