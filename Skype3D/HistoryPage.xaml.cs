@@ -32,9 +32,6 @@ namespace Skype3D
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            chat = (Skype4Sharp.Chat)e.Parameter;
-            chatTopicBlock.Text = chat.Topic;
-            avatarBitmap.UriSource = chat.AvatarUri;
             int totalUnreadCount = 0;
             foreach (KeyValuePair<string, int> entry in App.unreadRecord)
                 totalUnreadCount += entry.Value;
@@ -42,8 +39,14 @@ namespace Skype3D
                 unreadMark.Visibility = Visibility.Collapsed;
             else
                 unreadMark.Visibility = Visibility.Visible;
-
-            messages = await chat.getMessageHistory();
+            if (e.Parameter is Skype4Sharp.Chat)
+            {
+                chat = (Skype4Sharp.Chat)e.Parameter;
+                chatTopicBlock.Text = chat.Topic;
+                avatarBitmap.UriSource = chat.AvatarUri;
+                messages = await chat.getMessageHistory();
+            }
+            
             historyListView.ItemsSource = messages;
             historyListView.ScrollIntoView(historyListView.Items[historyListView.Items.Count - 1]);
             progressBar.Visibility = Visibility.Collapsed;
@@ -95,9 +98,9 @@ namespace Skype3D
             var user = (Skype4Sharp.User)value;
             if (user.Username == App.mainSkype.selfProfile.Username)
             {
-                points.Add(new Point(140, 0));
                 points.Add(new Point(160, 0));
-                points.Add(new Point(160, 20));
+                points.Add(new Point(180, 0));
+                points.Add(new Point(180, 20));
             }
             else
             {

@@ -48,8 +48,6 @@ namespace Skype3D
             appCallbacks.InitializeD3DXAML();
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
             App.mainSkype.messageReceived += messageReceived;
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -58,6 +56,7 @@ namespace Skype3D
                 chat = (Skype4Sharp.Chat)e.Parameter;
                 chatTopicBlock.Text = chat.Topic;
                 avatarBitmap.UriSource = chat.AvatarUri;
+                historyButton.Visibility = Visibility.Visible;
             }
             else if (e.Parameter is Skype4Sharp.User)
             {
@@ -78,28 +77,13 @@ namespace Skype3D
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             clearUnreadBeforeGoBack();
+            Frame.GoBack();
         }
 
         private void clearUnreadBeforeGoBack()
         {
             if (chat != null && App.unreadRecord.ContainsKey(chat.ID))
                 App.unreadRecord.Remove(chat.ID);
-            Frame.GoBack();
-        }
-
-        private void App_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
-                return;
-
-            // Navigate back if possible, and if the event has not 
-            // already been handled .
-            if (rootFrame.CanGoBack && e.Handled == false)
-            {
-                e.Handled = true;
-                clearUnreadBeforeGoBack();
-            }
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -168,7 +152,8 @@ namespace Skype3D
 
         private void historyButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HistoryPage), chat);
+            if (chat != null)
+                Frame.Navigate(typeof(HistoryPage), chat);
         }
     }
 }

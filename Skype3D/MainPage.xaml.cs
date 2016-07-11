@@ -59,6 +59,7 @@ namespace Skype3D
                 recent = null;
                 contacts = null;
             }
+            Frame.BackStack.Clear();
             if (!App.mainSkype.isPolling)
             {
                 App.mainSkype.messageReceived += messageReceived;
@@ -78,7 +79,23 @@ namespace Skype3D
                 peopleListView.ItemsSource = contacts;
             }
             progressBar.Visibility = Visibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+                return;
+
+            // Navigate back if possible, and if the event has not 
+            // already been handled .
+            if (rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+            }
+        }
+
 
         private void profileButton_Click(object sender, RoutedEventArgs e)
         {

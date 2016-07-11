@@ -20,6 +20,7 @@ using Windows.Foundation.Metadata;
 using Skype3D.Utility;
 using UnityPlayer;
 
+
 namespace Skype3D
 {
     /// <summary>

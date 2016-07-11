@@ -35,7 +35,7 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HorizontalAlignment="{Binding Sender, Converter={StaticResource selfToAlignment}}" MaxWidth="200" MinWidth="180">
+                    <Grid HorizontalAlignment="{Binding Sender, Converter={StaticResource selfToAlignment}}" Margin="0,0,10,0" MaxWidth="220" MinWidth="200">
                         <StackPanel Background="{Binding Sender, Converter={StaticResource selfToColor}}" Margin="0,0,0,20">
                             <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Text="{Binding Sender.DisplayName}" FontWeight="Bold" Foreground="DeepSkyBlue" FontSize="13"/>
                             <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" Text="{Binding Body}"/>

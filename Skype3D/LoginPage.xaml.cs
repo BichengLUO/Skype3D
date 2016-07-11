@@ -28,6 +28,7 @@ namespace Skype3D
         public LoginPage()
         {
             this.InitializeComponent();
+            Frame.BackStack.Clear();
         }
 
         private async void signInButton_Click(object sender, RoutedEventArgs e)
