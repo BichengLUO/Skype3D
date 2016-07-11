@@ -52,12 +52,25 @@ namespace Skype3D
         
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            senderBubble.Opacity = receiverBubble.Opacity = 0;
             if (e.Parameter is Skype4Sharp.Chat)
             {
                 chat = (Skype4Sharp.Chat)e.Parameter;
                 chatTopicBlock.Text = chat.Topic;
                 avatarBitmap.UriSource = chat.AvatarUri;
                 historyButton.Visibility = Visibility.Visible;
+                if (chat.LastMessage.Sender.Username == App.mainSkype.selfProfile.Username)
+                {
+                    sentMessageBlock.Text = chat.LastMessage.Body;
+                    senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
+                    senderBubblePop.Begin();
+                }
+                else
+                {
+                    receivedMessageBlock.Text = chat.LastMessage.Body;
+                    receiverNameBlock.Text = chat.LastMessage.Sender.DisplayName;
+                    receiverBubblePop.Begin();
+                }
             }
             else if (e.Parameter is Skype4Sharp.User)
             {

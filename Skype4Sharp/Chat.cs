@@ -11,7 +11,7 @@ namespace Skype4Sharp
     {
         public string ID;
         public string ChatLink { get; set; }
-        public string LastMessage { get; set; }
+        public ChatMessage LastMessage { get; set; }
         public string Topic { get; set; }
         public bool Unread { get; set; }
         public Uri AvatarUri { get; set; }

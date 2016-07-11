@@ -29,7 +29,7 @@
                                 </Ellipse>
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Topic}" FontSize="20" Foreground="{Binding Unread, Converter={StaticResource unreadToColor}}"/>
-                                    <TextBlock Text="{Binding LastMessage}" FontSize="16" Foreground="DarkGray"/>
+                                    <TextBlock Text="{Binding LastMessage.Body}" FontSize="16" Foreground="DarkGray"/>
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>

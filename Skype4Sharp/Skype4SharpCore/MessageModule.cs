@@ -92,7 +92,7 @@ namespace Skype4Sharp.Skype4SharpCore
                     toReturn.AvatarUri = new Uri("ms-appx:///Assets/default-avatar.png");
                 toReturn.Type = Enums.ChatType.Private;
             }
-            toReturn.LastMessage = jsonObject.lastMessage.content;
+            toReturn.LastMessage = toReturn.messageFromJson(jsonObject.lastMessage, await toReturn.getParticipants());
             return toReturn;
         }
     }
