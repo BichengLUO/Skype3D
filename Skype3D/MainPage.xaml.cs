@@ -37,6 +37,8 @@ namespace Skype3D
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -79,7 +81,6 @@ namespace Skype3D
                 peopleListView.ItemsSource = contacts;
             }
             progressBar.Visibility = Visibility.Collapsed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
         }
 
         private void App_BackRequested(object sender, BackRequestedEventArgs e)
@@ -92,10 +93,10 @@ namespace Skype3D
             // already been handled .
             if (rootFrame.CanGoBack && e.Handled == false)
             {
+                Frame.GoBack();
                 e.Handled = true;
             }
         }
-
 
         private void profileButton_Click(object sender, RoutedEventArgs e)
         {

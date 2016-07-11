@@ -49,6 +49,7 @@ namespace Skype3D
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
             App.mainSkype.messageReceived += messageReceived;
         }
+        
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter is Skype4Sharp.Chat)
