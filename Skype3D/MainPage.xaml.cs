@@ -67,10 +67,11 @@ namespace Skype3D
                 App.mainSkype.messageReceived += messageReceived;
                 App.mainSkype.StartPoll();
             }
-            selfAvatarImage.Source = new BitmapImage(App.mainSkype.selfProfile.AvatarUri);
+            selfAvatarImage.Source = new BitmapImage(await CharacterUtil.CharacterManager.GetCharAvatarForUser(App.mainSkype.selfProfile));
             if (recent == null || App.recentNeedUpdate)
             {
                 recent = await App.mainSkype.GetRecent();
+                await CharacterUtil.CharacterManager.GetCharAvatarUrlsForChats(recent);
                 recentListView.ItemsSource = recent;
                 App.recentNeedUpdate = false;
                 refreshUnreadCount();
@@ -78,6 +79,7 @@ namespace Skype3D
             if (contacts == null)
             {
                 contacts = await App.mainSkype.GetContacts();
+                await CharacterUtil.CharacterManager.GetCharAvatarUrlsForUsers(contacts);
                 peopleListView.ItemsSource = contacts;
             }
             progressBar.Visibility = Visibility.Collapsed;
@@ -146,6 +148,7 @@ namespace Skype3D
         private async void messageReceived(Skype4Sharp.ChatMessage pMessage)
         {
             recent = await App.mainSkype.GetRecent();
+            await CharacterUtil.CharacterManager.GetCharAvatarUrlsForChats(recent);
             if (App.unreadRecord.ContainsKey(pMessage.Chat.ID))
                 App.unreadRecord[pMessage.Chat.ID]++;
             else

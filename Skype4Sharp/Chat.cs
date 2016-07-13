@@ -13,8 +13,10 @@ namespace Skype4Sharp
         public string ChatLink { get; set; }
         public ChatMessage LastMessage { get; set; }
         public string Topic { get; set; }
+        public User mainParticipant { get; set; }
         public bool Unread { get; set; }
         public Uri AvatarUri { get; set; }
+        public Uri CharAvatarUri { get; set; }
         public Enums.ChatType Type;
         public Skype4Sharp parentSkype;
         private string clientGatewayMessengerDomain = "https://client-s.gateway.messenger.live.com";

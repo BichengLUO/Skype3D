@@ -82,6 +82,7 @@ namespace Skype4Sharp.Skype4SharpCore
             else
             {
                 User user = await parentSkype.GetUser(toReturn.ID.Remove(0, 2));
+                toReturn.mainParticipant = user;
                 if (user.DisplayName != null && user.DisplayName != "")
                     toReturn.Topic = user.DisplayName;
                 else

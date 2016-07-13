@@ -22,7 +22,7 @@
                                     <Ellipse.Fill>
                                         <ImageBrush>
                                             <ImageBrush.ImageSource>
-                                                <BitmapImage UriSource="{Binding AvatarUri}" />
+                                                <BitmapImage UriSource="{Binding CharAvatarUri}" />
                                             </ImageBrush.ImageSource>
                                         </ImageBrush>
                                     </Ellipse.Fill>
@@ -45,7 +45,7 @@
                                     <Ellipse.Fill>
                                         <ImageBrush>
                                             <ImageBrush.ImageSource>
-                                                <BitmapImage UriSource="{Binding AvatarUri}" />
+                                                <BitmapImage UriSource="{Binding CharAvatarUri}" />
                                             </ImageBrush.ImageSource>
                                         </ImageBrush>
                                     </Ellipse.Fill>

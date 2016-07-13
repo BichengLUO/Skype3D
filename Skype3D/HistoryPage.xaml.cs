@@ -39,7 +39,7 @@ namespace Skype3D
             {
                 chat = (Skype4Sharp.Chat)e.Parameter;
                 chatTopicBlock.Text = chat.Topic;
-                avatarBitmap.UriSource = chat.AvatarUri;
+                avatarBitmap.UriSource = chat.CharAvatarUri;
                 messages = await chat.getMessageHistory();
             }
             
