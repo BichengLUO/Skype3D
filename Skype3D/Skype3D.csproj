@@ -129,6 +129,24 @@
     <None Include="Skype3D_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\CharacterAvatars\0.png" />
+    <Content Include="Assets\CharacterAvatars\1.png" />
+    <Content Include="Assets\CharacterAvatars\2.png" />
+    <Content Include="Assets\CharacterAvatars\3.png" />
+    <Content Include="Assets\CharacterAvatars\4.png" />
+    <Content Include="Assets\CharacterAvatars\5.png" />
+    <Content Include="Assets\CharacterAvatars\6.png" />
+    <Content Include="Assets\CharacterAvatars\7.png" />
+    <Content Include="Assets\CharacterAvatars\8.png" />
+    <Content Include="Assets\CharacterThumbs\0.png" />
+    <Content Include="Assets\CharacterThumbs\1.png" />
+    <Content Include="Assets\CharacterThumbs\2.png" />
+    <Content Include="Assets\CharacterThumbs\3.png" />
+    <Content Include="Assets\CharacterThumbs\4.png" />
+    <Content Include="Assets\CharacterThumbs\5.png" />
+    <Content Include="Assets\CharacterThumbs\6.png" />
+    <Content Include="Assets\CharacterThumbs\7.png" />
+    <Content Include="Assets\CharacterThumbs\8.png" />
     <Content Include="Assets\default-avatar.png" />
     <Content Include="Assets\default-group-avatar.png" />
     <Content Include="Data\managedAssemblies.txt" />

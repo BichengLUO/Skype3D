@@ -9,11 +9,11 @@
     <Page.Resources>
         <Storyboard x:Name="senderBubblePop">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="senderBubble" From="0" To="1" Duration="0:0:0.3"/>
-            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="senderBubbleTrans" From="20" To="0" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="senderBubbleTrans" From="20" To="0" Duration="0:0:0.3"/>
         </Storyboard>
         <Storyboard x:Name="receiverBubblePop">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="receiverBubble" From="0" To="1" Duration="0:0:0.3"/>
-            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="receiverBubbleTrans" From="20" To="0" Duration="0:0:0.5"/>
+            <DoubleAnimation Storyboard.TargetProperty="Y" Storyboard.TargetName="receiverBubbleTrans" From="20" To="0" Duration="0:0:0.3"/>
         </Storyboard>
     </Page.Resources>
 

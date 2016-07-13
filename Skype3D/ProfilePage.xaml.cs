@@ -26,14 +26,25 @@ namespace Skype3D
     /// </summary>
     public sealed partial class ProfilePage : Page
     {
+        private Skype4Sharp.User user;
         public ProfilePage()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             showBackButton();
+            user = (Skype4Sharp.User)e.Parameter;
+            nameBlock.Text = user.DisplayName;
+            if (user.Username != App.mainSkype.selfProfile.Username)
+                signOutButton.Visibility = Visibility.Collapsed;
+
+            int charID = await CharacterUtil.CharacterManager.GetCharacter(user);
+            if (charID == CharacterUtil.CharacterManager.NotFound)
+                charID = 0;
+            Image characterImg = (Image)charactersSelectionPanel.Children[charID];
+            updateSelectionForImg(characterImg);
         }
 
         private void showBackButton()
@@ -58,17 +69,32 @@ namespace Skype3D
             Frame.GoBack();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            nameBlock.Text = App.mainSkype.selfProfile.DisplayName;
-            selfAvatarImage.Source = new BitmapImage(App.mainSkype.selfProfile.AvatarUri);
-        }
-
         private async void signOutButton_Click(object sender, RoutedEventArgs e)
         {
             await App.mainSkype.Logout();
             CookieManager.RemoveFile(App.cookieFilename);
             Frame.Navigate(typeof(LoginPage));
+        }
+
+        private void charactersSelectionViewer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            charactersSelectionPanel.Height = charactersSelectionViewer.ViewportHeight;
+        }
+
+        private async void characterImg_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Image characterImg = (Image)sender;
+            updateSelectionForImg(characterImg);
+            int charID = charactersSelectionPanel.Children.IndexOf(characterImg);
+            await CharacterUtil.CharacterManager.SetCharacter(charID);
+        }
+
+        private void updateSelectionForImg(Image characterImg)
+        {
+            var ttf = characterImg.TransformToVisual(charactersSelectionPanel);
+            Point pos = ttf.TransformPoint(new Point(characterImg.ActualWidth / 2.0, 0));
+            selection.Margin = new Thickness(pos.X + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
+            selectionPop.Begin();
         }
     }
 }

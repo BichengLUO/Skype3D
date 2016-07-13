@@ -107,7 +107,7 @@ namespace Skype3D
 
         private void profileButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ProfilePage));
+            Frame.Navigate(typeof(ProfilePage), App.mainSkype.selfProfile);
         }
 
         private void recentListView_ItemClick(object sender, ItemClickEventArgs e)
