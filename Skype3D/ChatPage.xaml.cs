@@ -32,6 +32,7 @@ namespace Skype3D
         private WinRTBridge.WinRTBridge _bridge;
         private Skype4Sharp.Chat chat;
         private Skype4Sharp.User user;
+        private int charID;
 
         public ChatPage()
         {
@@ -50,7 +51,7 @@ namespace Skype3D
             App.mainSkype.messageReceived += messageReceived;
         }
         
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             senderBubble.Opacity = receiverBubble.Opacity = 0;
             if (e.Parameter is Skype4Sharp.Chat)
@@ -79,6 +80,30 @@ namespace Skype3D
                 avatarBitmap.UriSource = user.AvatarUri;
                 historyButton.Visibility = Visibility.Collapsed;
             }
+            refreshUnread();
+            showBackButton();
+            await loadCharacter();
+        }
+
+        private void showBackButton()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                // Show UI in title bar if opted-in and in-app backstack is not empty.
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                // Remove the UI from the title bar if in-app back stack is empty.
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Collapsed;
+            }
+        }
+
+        private void refreshUnread()
+        {
             int totalUnreadCount = 0;
             foreach (KeyValuePair<string, int> entry in App.unreadRecord)
                 totalUnreadCount += entry.Value;
@@ -86,6 +111,22 @@ namespace Skype3D
                 unreadMark.Visibility = Visibility.Collapsed;
             else
                 unreadMark.Visibility = Visibility.Visible;
+        }
+
+        private async Task loadCharacter()
+        {
+            unityMask.Visibility = Visibility.Visible;
+            progressBar.Visibility = Visibility.Visible;
+            await waitForLevel();
+            if (chat != null)
+                charID = await CharacterUtil.CharacterManager.GetCharacter(chat.LastMessage.Sender);
+            else if (user != null)
+                charID = await CharacterUtil.CharacterManager.GetCharacter(user);
+            if (charID == CharacterUtil.CharacterManager.NotFound)
+                charID = 0;
+            Interoperation.setCharacterID(charID);
+            unityMask.Visibility = Visibility.Collapsed;
+            progressBar.Visibility = Visibility.Collapsed;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -98,13 +139,6 @@ namespace Skype3D
         {
             if (chat != null && App.unreadRecord.ContainsKey(chat.ID))
                 App.unreadRecord.Remove(chat.ID);
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await waitForLevel();
-            unityMask.Visibility = Visibility.Collapsed;
-            progressBar.Visibility = Visibility.Collapsed;
         }
 
         private async Task waitForLevel()
@@ -140,11 +174,15 @@ namespace Skype3D
             if ((chat != null && pMessage.Chat.ID == chat.ID) ||
                 (user != null && pMessage.Sender.Username == user.Username))
             {
+                charID = await CharacterUtil.CharacterManager.GetCharacter(pMessage.Sender);
+                if (charID == CharacterUtil.CharacterManager.NotFound)
+                    charID = 0;
                 await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     receivedMessageBlock.Text = pMessage.Body;
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
+                    Interoperation.setCharacterID(charID);
                 });
             }
             else

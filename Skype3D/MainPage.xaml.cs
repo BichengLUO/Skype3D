@@ -83,6 +83,13 @@ namespace Skype3D
             progressBar.Visibility = Visibility.Collapsed;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // Remove the UI from the title bar if in-app back stack is empty.
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                AppViewBackButtonVisibility.Collapsed;
+        }
+
         private void App_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;

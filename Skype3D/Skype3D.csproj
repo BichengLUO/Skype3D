@@ -102,7 +102,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CharacterUtil\CharacterUtil.cs" />
+    <Compile Include="CharacterUtil\CharacterManager.cs" />
     <Compile Include="CharacterUtil\LeanCloudKey.cs" />
     <Compile Include="ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>

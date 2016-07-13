@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,13 +33,8 @@ namespace Skype3D
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            int totalUnreadCount = 0;
-            foreach (KeyValuePair<string, int> entry in App.unreadRecord)
-                totalUnreadCount += entry.Value;
-            if (totalUnreadCount == 0)
-                unreadMark.Visibility = Visibility.Collapsed;
-            else
-                unreadMark.Visibility = Visibility.Visible;
+            refreshUnread();
+            showBackButton();
             if (e.Parameter is Skype4Sharp.Chat)
             {
                 chat = (Skype4Sharp.Chat)e.Parameter;
@@ -50,6 +46,33 @@ namespace Skype3D
             historyListView.ItemsSource = messages;
             historyListView.ScrollIntoView(historyListView.Items[historyListView.Items.Count - 1]);
             progressBar.Visibility = Visibility.Collapsed;
+        }
+        private void showBackButton()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                // Show UI in title bar if opted-in and in-app backstack is not empty.
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                // Remove the UI from the title bar if in-app back stack is empty.
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Collapsed;
+            }
+        }
+
+        private void refreshUnread()
+        {
+            int totalUnreadCount = 0;
+            foreach (KeyValuePair<string, int> entry in App.unreadRecord)
+                totalUnreadCount += entry.Value;
+            if (totalUnreadCount == 0)
+                unreadMark.Visibility = Visibility.Collapsed;
+            else
+                unreadMark.Visibility = Visibility.Visible;
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
