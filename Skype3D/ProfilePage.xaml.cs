@@ -32,19 +32,13 @@ namespace Skype3D
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             showBackButton();
             user = (Skype4Sharp.User)e.Parameter;
             nameBlock.Text = user.DisplayName;
             if (user.Username != App.mainSkype.selfProfile.Username)
                 signOutButton.Visibility = Visibility.Collapsed;
-
-            int charID = await CharacterUtil.CharacterManager.GetCharacter(user);
-            if (charID == CharacterUtil.CharacterManager.NotFound)
-                charID = 0;
-            Image characterImg = (Image)charactersSelectionPanel.Children[charID];
-            updateSelectionForImg(characterImg);
         }
 
         private void showBackButton()
@@ -81,7 +75,15 @@ namespace Skype3D
             charactersSelectionPanel.Height = charactersSelectionViewer.ViewportHeight;
         }
 
-        private async void characterImg_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void updateSelectionForImg(Image characterImg)
+        {
+            var ttf = characterImg.TransformToVisual(charactersSelectionPanel);
+            Point pos = ttf.TransformPoint(new Point(characterImg.ActualWidth / 2.0, 0));
+            selection.Margin = new Thickness(pos.X + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
+            selectionPop.Begin();
+        }
+
+        private async void characterImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Image characterImg = (Image)sender;
             updateSelectionForImg(characterImg);
@@ -89,12 +91,14 @@ namespace Skype3D
             await CharacterUtil.CharacterManager.SetCharacter(charID);
         }
 
-        private void updateSelectionForImg(Image characterImg)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var ttf = characterImg.TransformToVisual(charactersSelectionPanel);
-            Point pos = ttf.TransformPoint(new Point(characterImg.ActualWidth / 2.0, 0));
-            selection.Margin = new Thickness(pos.X + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
-            selectionPop.Begin();
+            int charID = await CharacterUtil.CharacterManager.GetCharIDForUser(user);
+            Image characterImg = (Image)charactersSelectionPanel.Children[charID];
+            updateSelectionForImg(characterImg);
+
+            double offset = selection.Margin.Left - (charactersSelectionViewer.ActualWidth - selection.ActualWidth) / 2.0;
+            charactersSelectionViewer.ChangeView(offset, null, null, false);
         }
     }
 }

@@ -119,8 +119,8 @@ namespace Skype3D
             unityMask.Visibility = Visibility.Visible;
             progressBar.Visibility = Visibility.Visible;
             await waitForLevel();
-            
             Interoperation.setCharacterID(await getCharID());
+            await waitForCharacterChanged();
             unityMask.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
         }
@@ -153,6 +153,12 @@ namespace Skype3D
         private async Task waitForLevel()
         {
             while (!Interoperation.levelLoaded)
+                await Task.Delay(1000);
+        }
+
+        private async Task waitForCharacterChanged()
+        {
+            while (Interoperation.characterChanged)
                 await Task.Delay(1000);
         }
 

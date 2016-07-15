@@ -5,7 +5,7 @@
     xmlns:local="using:Skype3D"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded">
     <Page.Resources>
         <Storyboard x:Name="selectionPop">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="selection" From="0" To="1" Duration="0:0:0.3"/>
@@ -21,15 +21,15 @@
         <ScrollViewer x:Name="charactersSelectionViewer" Margin="0,140,0,0" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" SizeChanged="charactersSelectionViewer_SizeChanged">
             <Grid>
                 <StackPanel x:Name="charactersSelectionPanel" Orientation="Horizontal" Height="400" Margin="100,10,100,30">
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/0.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/1.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/2.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/3.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/4.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/5.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/6.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/7.png" PointerPressed="characterImg_PointerPressed"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/8.png" PointerPressed="characterImg_PointerPressed"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/0.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/1.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/2.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/3.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/4.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/5.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/6.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/7.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/8.png" Tapped="characterImg_Tapped"/>
                 </StackPanel>
                 <Grid x:Name="selection" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0">
                     <Grid.RenderTransform>
