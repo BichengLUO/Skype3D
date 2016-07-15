@@ -27,6 +27,7 @@ namespace Skype3D
     public sealed partial class ProfilePage : Page
     {
         private Skype4Sharp.User user;
+        private int currentCharInd = 0;
 
         public ProfilePage()
         {
@@ -74,27 +75,31 @@ namespace Skype3D
         private void charactersSelectionViewer_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             charactersSelectionPanel.Height = charactersSelectionViewer.ViewportHeight;
+            foreach (Image chaImg in charactersSelectionPanel.Children)
+            {
+                chaImg.Width = charactersSelectionViewer.ViewportWidth * 0.5;
+            }
+            selection.Margin = new Thickness((currentCharInd + 0.5) * (charactersSelectionViewer.ViewportWidth * 0.5) + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
         }
 
         private void updateSelectionForImg(int ind)
         {
-            selection.Margin = new Thickness((ind + 0.5) * 150 + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
+            selection.Margin = new Thickness((ind + 0.5) * (charactersSelectionViewer.ViewportWidth * 0.5) + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
             selectionPop.Begin();
         }
 
         private async void characterImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Image characterImg = (Image)sender;
-            int ind = charactersSelectionPanel.Children.IndexOf(characterImg);
-            updateSelectionForImg(ind);
-            int charID = charactersSelectionPanel.Children.IndexOf(characterImg);
-            await CharacterUtil.CharacterManager.SetCharacter(charID);
+            currentCharInd = charactersSelectionPanel.Children.IndexOf(characterImg);
+            updateSelectionForImg(currentCharInd);
+            await CharacterUtil.CharacterManager.SetCharacter(currentCharInd);
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            int ind = await CharacterUtil.CharacterManager.GetCharIDForUser(user);
-            updateSelectionForImg(ind);
+            currentCharInd = await CharacterUtil.CharacterManager.GetCharIDForUser(user);
+            updateSelectionForImg(currentCharInd);
 
             double offset = selection.Margin.Left - (charactersSelectionViewer.ActualWidth - selection.ActualWidth) / 2.0;
             charactersSelectionViewer.ChangeView(offset, null, null, false);
