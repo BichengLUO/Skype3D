@@ -1,0 +1,18 @@
+greet_00 您好 请多关照 谢谢 再见 鞠躬 明白了 hello thank bye understand
+greet_01 嗨 早上好 你好 走了 拜拜 回见 morning hi byebye see later good-bye
+greet_02 在么 喂 在干嘛 远处 招手 我在这里 hey what's up hear here
+greet_03 悄悄 嘘 不要告诉别人 silent silence whisper secret secretly
+greet_04 殿下 亲爱 公主 王子 女王 国王 王 绅士 king queen prince princess highness majesty elegent gentle
+embar_00 想想 嗯 奇怪 为什么 think see en why strange odd
+embar_01 明白了 为什么 思考 想 头 发型 understand why think thinking consider head hair cut haircut
+forward_20_p 打 攻击 威胁 hit attack
+crawl_10 爬 猫 狗 动物 crawl cat dog animal
+crossarms_00 原来如此 自我 认为 that's it self opinion consider
+down_22 被打败了 痛 晕 哭 傻 疯 无力 累 垮 defeated ache pain hurt cry dizzy faint silly foolish crazy insane tired exhausted overwhelmed
+down_23 困倦 困 不懂 我错了 睡觉 睡着 睡 走神 sleepy misunderstand wrong sleep absent mind
+handshake_00 握手 握 handshake shake
+jump_10 太好了 太棒 赞 高兴 兴奋 good great fantasitc cheer excited
+jump_11 哦也 完美 超赞 跳 高 飞天 上天 yeah better best jump high higher fly heaven upwards perfect
+jump_20 太赞 喜出望外 好棒 心满意足 振奋 so good much better exciting great joyful satisfied
+offerhug_00 抱 拥 安慰 hug embrace comfort relief
+reachout_00 伸手 手 帮 助 辅佐 reach hand out help assist

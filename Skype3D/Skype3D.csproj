@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="CharacterUtil\CharacterManager.cs" />
     <Compile Include="CharacterUtil\LeanCloudKey.cs" />
+    <Compile Include="CharacterUtil\Words2Anim.cs" />
     <Compile Include="ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
@@ -149,6 +150,7 @@
     <Content Include="Assets\CharacterThumbs\8.png" />
     <Content Include="Assets\default-avatar.png" />
     <Content Include="Assets\default-group-avatar.png" />
+    <Content Include="Assets\skype3d_vocabulary.txt" />
     <Content Include="Data\managedAssemblies.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

@@ -83,6 +83,8 @@ namespace Skype3D
                 peopleListView.ItemsSource = contacts;
             }
             progressBar.Visibility = Visibility.Collapsed;
+            if (CharacterUtil.Words2Anim.words2Anim.Count == 0)
+                await CharacterUtil.Words2Anim.LoadVocabulary();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

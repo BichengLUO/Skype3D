@@ -190,12 +190,14 @@ namespace Skype3D
                 (user != null && pMessage.Sender.Username == user.Username))
             {
                 int charID = await CharacterUtil.CharacterManager.GetCharIDForUser(pMessage.Sender);
+                string animName = CharacterUtil.Words2Anim.convertToAnim(pMessage.Body);
                 await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     receivedMessageBlock.Text = pMessage.Body;
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
                     Interoperation.setCharacterID(charID);
+                    Interoperation.setAnimationName(animName);
                 });
             }
             else
