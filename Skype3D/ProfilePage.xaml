@@ -21,15 +21,15 @@
         <ScrollViewer x:Name="charactersSelectionViewer" Margin="0,140,0,0" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" SizeChanged="charactersSelectionViewer_SizeChanged">
             <Grid>
                 <StackPanel x:Name="charactersSelectionPanel" Orientation="Horizontal" Height="400" Margin="100,10,100,30">
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/0.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/1.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/2.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/3.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/4.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/5.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/6.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/7.png" Tapped="characterImg_Tapped"/>
-                    <Image Source="ms-appx:///Assets/CharacterThumbs/8.png" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/0.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/1.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/2.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/3.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/4.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/5.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/6.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/7.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image Source="ms-appx:///Assets/CharacterThumbs/8.png" Width="150" Tapped="characterImg_Tapped"/>
                 </StackPanel>
                 <Grid x:Name="selection" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0">
                     <Grid.RenderTransform>

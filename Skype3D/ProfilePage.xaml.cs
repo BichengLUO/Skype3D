@@ -27,6 +27,7 @@ namespace Skype3D
     public sealed partial class ProfilePage : Page
     {
         private Skype4Sharp.User user;
+
         public ProfilePage()
         {
             this.InitializeComponent();
@@ -75,27 +76,25 @@ namespace Skype3D
             charactersSelectionPanel.Height = charactersSelectionViewer.ViewportHeight;
         }
 
-        private void updateSelectionForImg(Image characterImg)
+        private void updateSelectionForImg(int ind)
         {
-            var ttf = characterImg.TransformToVisual(charactersSelectionPanel);
-            Point pos = ttf.TransformPoint(new Point(characterImg.ActualWidth / 2.0, 0));
-            selection.Margin = new Thickness(pos.X + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
+            selection.Margin = new Thickness((ind + 0.5) * 150 + charactersSelectionPanel.Margin.Left - selection.ActualWidth / 2.0, 0, 0, 0);
             selectionPop.Begin();
         }
 
         private async void characterImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Image characterImg = (Image)sender;
-            updateSelectionForImg(characterImg);
+            int ind = charactersSelectionPanel.Children.IndexOf(characterImg);
+            updateSelectionForImg(ind);
             int charID = charactersSelectionPanel.Children.IndexOf(characterImg);
             await CharacterUtil.CharacterManager.SetCharacter(charID);
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            int charID = await CharacterUtil.CharacterManager.GetCharIDForUser(user);
-            Image characterImg = (Image)charactersSelectionPanel.Children[charID];
-            updateSelectionForImg(characterImg);
+            int ind = await CharacterUtil.CharacterManager.GetCharIDForUser(user);
+            updateSelectionForImg(ind);
 
             double offset = selection.Margin.Left - (charactersSelectionViewer.ActualWidth - selection.ActualWidth) / 2.0;
             charactersSelectionViewer.ChangeView(offset, null, null, false);

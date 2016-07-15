@@ -29,7 +29,6 @@ namespace Skype3D
         public LoginPage()
         {
             this.InitializeComponent();
-            Frame.BackStack.Clear();
         }
 
         private async void signInButton_Click(object sender, RoutedEventArgs e)
@@ -54,6 +53,11 @@ namespace Skype3D
             // Remove the UI from the title bar if in-app back stack is empty.
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                 AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Frame.BackStack.Clear();
         }
     }
 }
