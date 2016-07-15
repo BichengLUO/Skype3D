@@ -16,3 +16,24 @@ jump_11 哦也 完美 超赞 跳 高 飞天 上天 yeah better best jump high hi
 jump_20 太赞 喜出望外 好棒 心满意足 振奋 so good much better exciting great joyful satisfied
 offerhug_00 抱 拥 安慰 hug embrace comfort relief
 reachout_00 伸手 手 帮 助 辅佐 reach hand out help assist
+sit_02 听 坐 休息 舒适 下班 下 listen sit rest leisure off-work down
+sit_03 听 坐 休息 舒适 下班 下 寂寞 listen sit rest leisure off-work down lone
+sit_04 听 坐 休息 舒适 下班 下 跪 正坐 插花 日本 listen sit rest leisure off-work down kneel japan
+sit_05 听 坐 休息 舒适 下班 下 潇洒 listen sit rest leisure off-work down cool
+sit_06 听 坐 休息 舒适 下班 下 蹲 厕所 大便 listen sit rest leisure off-work down squat w.c. toilet shit
+lookdown_00 向下看 思考 思索 沉思 审视 观察 look down think consider scrutinize observe
+nod_00 点头 示意 赞同 同意 认同 确定 是 没错 正确 nod show agree admit approve sure yes right correct
+nod_01 点头 示意 赞同 同意 认同 确定 是 没错 正确 +10086 +1 同上 楼上说的对 nod show agree admit approve sure yes right correct
+pose_00 肌肉 强壮 强大 男人 厉害 帅 英勇 孔武有力 muscle man strong power powerfull handsome cool
+pose_01 肌肉 强壮 强大 男人 厉害 帅 英勇 孔武有力 muscle man strong power powerfull handsome cool
+pose_02 帅 英俊 酷 颜值 潇洒 脸 handsome lovely cute adorable face cool
+refuse_00 不 否定 否认 否决 反对 不喜欢 no disagree disavow opt contrary opposite dislike
+refuse_01 不 否定 否认 否决 反对 不喜欢 不好 不感兴趣 no disagree disavow opt contrary opposite dislike
+storepower_20 蓄力 坚持 持久 忍耐 憋大招 store power endure last tolerate
+thinking_00 思考 思索 想 理解 学习 评价 consider think observe understand study research comment
+walk_00 走 去 到 旅游 运动 散步 路 go went come came gone tour sports exersize road
+run_00 走 去 到 跑 追 赶 运动 锻炼 go went come came gone run exersize workout
+salute_00 敬礼 军人 军队 军训 部队 国家 英雄 烈士 salute soldier army traning nation country hero
+scratchhead_00 脑 头 挠 难 烦 繁 光头 秃头 头发 发型 brain head scratch difficult bother hard complex bald hair haircut
+special_20_p 打 龙 拳 武术 散打 拳皇 胜利 七龙珠 hit attack dragon fist punch balls victory
+special_21 气功 打 打败 龟波 龟派气功 发射 炮弹 特异 武术 散打 七龙珠 shoot gun martial balls Kamehameha Goku

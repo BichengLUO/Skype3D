@@ -15,7 +15,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="nameBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="DarkGray" FontSize="18"/>
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White">
+        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White" Width="40" Height="40">
             <SymbolIcon Symbol="AllApps"/>
         </Button>
         <ScrollViewer x:Name="charactersSelectionViewer" Margin="0,140,0,0" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" SizeChanged="charactersSelectionViewer_SizeChanged">
