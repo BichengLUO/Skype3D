@@ -12,7 +12,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
-        <Pivot Title="Skype3D">
+        <Pivot Title="avaChat">
             <PivotItem Header="recent">
                 <ListView x:Name="recentListView" IsItemClickEnabled="True" ItemClick="recentListView_ItemClick" SelectionMode="None">
                     <ListView.ItemTemplate>
@@ -64,12 +64,12 @@
             <Image x:Name="selfAvatarImage" Stretch="UniformToFill" />
         </Button>
         <Grid x:Name="unreadCountLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="25" Height="25" Margin="80,15,0,0" Visibility="Collapsed">
-            <Ellipse Fill="Orange"/>
+            <Ellipse Fill="Firebrick"/>
             <TextBlock x:Name="unreadCountBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" Foreground="White" FontSize="15" FontWeight="SemiBold"/>
         </Grid>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar Background="DodgerBlue" Foreground="White">
+        <CommandBar Background="Orange" Foreground="White">
             <AppBarButton Label="new chat" Icon="Message" Foreground="White"/>
         </CommandBar>
     </Page.BottomAppBar>

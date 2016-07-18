@@ -59,11 +59,21 @@ namespace Skype3D
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-
+            //PC customization
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
+            {
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                if (titleBar != null)
+                {
+                    titleBar.ButtonBackgroundColor = Colors.DarkOrange;
+                    titleBar.ButtonForegroundColor = Colors.White;
+                    titleBar.BackgroundColor = Colors.Orange;
+                    titleBar.ForegroundColor = Colors.White;
+                }
+            }
             //Mobile customization
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {

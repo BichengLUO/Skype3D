@@ -7,10 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Loaded="Page_Loaded">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Orange">
         <TextBox x:Name="skypeNameBox" HorizontalAlignment="Stretch" Margin="20,120,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Skype Name" IsSpellCheckEnabled="False"/>
         <PasswordBox x:Name="passwordBox" HorizontalAlignment="Stretch" Margin="20,157,20,0" VerticalAlignment="Top" PlaceholderText="Password"/>
-        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="20,220,20,0" VerticalAlignment="Top" Click="signInButton_Click"/>
+        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="20,220,20,0" VerticalAlignment="Top" Foreground="White" FontWeight="SemiBold" Click="signInButton_Click"/>
         <TextBlock x:Name="signInInfoBlock" HorizontalAlignment="Stretch" Margin="20,95,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="10" Margin="20,300,20,0" VerticalAlignment="Top" IsIndeterminate="True" Visibility="Collapsed"/>
 

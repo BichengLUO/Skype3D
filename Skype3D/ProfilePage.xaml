@@ -15,7 +15,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="nameBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="DarkGray" FontSize="18"/>
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White" Width="40" Height="40">
+        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DarkOrange" Foreground="White" Width="50" Height="50">
             <SymbolIcon Symbol="AllApps"/>
         </Button>
         <ScrollViewer x:Name="charactersSelectionViewer" Margin="0,140,0,0" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" SizeChanged="charactersSelectionViewer_SizeChanged">
@@ -35,14 +35,14 @@
                     <Grid.RenderTransform>
                         <TranslateTransform x:Name="selectionTrans" />
                     </Grid.RenderTransform>
-                    <Ellipse Fill="DodgerBlue" />
+                    <Ellipse Fill="DarkOrange" />
                     <SymbolIcon Symbol="Accept" Foreground="White"/>
                 </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>
     <Page.BottomAppBar>
-        <CommandBar Background="DodgerBlue" Foreground="White">
+        <CommandBar Background="Orange" Foreground="White">
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Name="signOutButton" Label="sign out" Click="signOutButton_Click"/>
                 <AppBarButton x:Name="helpButton" Label="help"/>

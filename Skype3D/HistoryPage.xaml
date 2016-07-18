@@ -13,11 +13,11 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DodgerBlue" Foreground="White" Width="40" Height="40">
+        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DarkOrange" Foreground="White" Width="50" Height="50">
             <SymbolIcon Symbol="ContactPresence"/>
         </Button>
-        <Ellipse x:Name="unreadMark" Fill="Orange" Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,5,0"/>
-        <Ellipse Width="50" Height="50" Margin="10,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Ellipse x:Name="unreadMark" Fill="Firebrick" Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,5,0"/>
+        <Ellipse Width="50" Height="50" Margin="10,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush>
                     <ImageBrush.ImageSource>
@@ -26,8 +26,8 @@
                 </ImageBrush>
             </Ellipse.Fill>
         </Ellipse>
-        <TextBlock x:Name="chatTopicBlock" HorizontalAlignment="Left" Margin="65,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="DarkGray" FontSize="20" FontWeight="SemiBold" Text="name"/>
-        <ListView x:Name="historyListView" Margin="0,80,0,0" SelectionMode="None">
+        <TextBlock x:Name="chatTopicBlock" HorizontalAlignment="Left" Margin="65,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="DarkGray" FontSize="20" FontWeight="SemiBold" Text="name"/>
+        <ListView x:Name="historyListView" Margin="0,90,0,0" SelectionMode="None">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -37,8 +37,8 @@
                 <DataTemplate>
                     <Grid HorizontalAlignment="{Binding Sender, Converter={StaticResource selfToAlignment}}" Margin="0,0,10,0" MaxWidth="220" MinWidth="200">
                         <StackPanel Background="{Binding Sender, Converter={StaticResource selfToColor}}" Margin="0,0,0,20">
-                            <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Text="{Binding Sender.DisplayName}" FontWeight="Bold" Foreground="DeepSkyBlue" FontSize="13"/>
-                            <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" Text="{Binding Body}"/>
+                            <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Text="{Binding Sender.DisplayName}" FontWeight="Bold" Foreground="Brown" FontSize="13"/>
+                            <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" Text="{Binding Body}" Foreground="White"/>
                         </StackPanel>
                         <Polygon Fill="{Binding Sender, Converter={StaticResource selfToColor}}" VerticalAlignment="Bottom" Points="{Binding Sender, Converter={StaticResource selfToPoints}}"/>
                     </Grid>

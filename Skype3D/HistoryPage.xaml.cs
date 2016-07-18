@@ -86,7 +86,7 @@ namespace Skype3D
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var user = (Skype4Sharp.User)value;
-            return user.Username == App.mainSkype.selfProfile.Username ? new SolidColorBrush(Colors.PowderBlue) : new SolidColorBrush(Colors.LightCyan);
+            return user.Username == App.mainSkype.selfProfile.Username ? new SolidColorBrush(Colors.Orange) : new SolidColorBrush(Colors.Goldenrod);
         }
 
         // No need to implement converting back on a one-way binding 
