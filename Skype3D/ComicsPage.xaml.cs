@@ -27,6 +27,10 @@ namespace Skype3D
         private Skype4Sharp.Chat chat;
         private List<Skype4Sharp.ChatMessage> messages;
         private Random rand = new Random();
+        private int page = 0;
+        private int maxPage = 0;
+        private int rows = 4;
+        private int cols = 3;
         public ComicsPage()
         {
             this.InitializeComponent();
@@ -42,6 +46,7 @@ namespace Skype3D
                 chatTopicBlock.Text = chat.Topic;
                 avatarBitmap.UriSource = chat.CharAvatarUri;
                 messages = await chat.getMessageHistory();
+                maxPage = (int)Math.Ceiling(messages.Count / (double)(rows * cols)) - 1;
             }
             progressBar.Visibility = Visibility.Collapsed;
             await fillCanvas();
@@ -83,10 +88,9 @@ namespace Skype3D
         {
             double width = comicsCanvas.ActualWidth;
             double height = comicsCanvas.ActualHeight;
-            int rows = 3;
-            int cols = 2;
+            
             double y = 0;
-            int k = 0;
+            int k = page * rows * cols;
             for (int i = 0; i < rows; i++)
             {
                 double x = 0;
@@ -105,6 +109,38 @@ namespace Skype3D
                 }
                 y += rowHeight;
             }
+        }
+
+        private async void lastPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            page--;
+            if (page < 0)
+                page = 0;
+            else
+                await refreshPage();
+        }
+
+        private async void nextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            page++;
+            if (page > maxPage)
+                page = maxPage;
+            else
+                await refreshPage();
+        }
+
+        private async Task refreshPage()
+        {
+            if (page == 0)
+                lastPageButton.IsEnabled = false;
+            else
+                lastPageButton.IsEnabled = true;
+            if (page == maxPage)
+                nextPageButton.IsEnabled = false;
+            else
+                nextPageButton.IsEnabled = true;
+            comicsCanvas.Children.Clear();
+            await fillCanvas();
         }
     }
 }

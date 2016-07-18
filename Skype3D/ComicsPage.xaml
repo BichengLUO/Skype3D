@@ -24,6 +24,16 @@
         <TextBlock x:Name="chatTopicBlock" HorizontalAlignment="Left" Margin="65,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="DarkGray" FontSize="20" FontWeight="SemiBold" Text="name"/>
         <Canvas x:Name="comicsCanvas" Margin="10,90,10,10">
         </Canvas>
+        <Button x:Name="lastPageButton" Background="DarkOrange" Height="60" Foreground="White" IsEnabled="False" Click="lastPageButton_Click">
+            <Viewbox MaxHeight="10" MaxWidth="10">
+                <SymbolIcon Symbol="Back"/>
+            </Viewbox>
+        </Button>
+        <Button x:Name="nextPageButton" Background="DarkOrange" Height="60" HorizontalAlignment="Right" Foreground="White" Click="nextPageButton_Click">
+            <Viewbox MaxHeight="10" MaxWidth="10">
+                <SymbolIcon Symbol="Forward"/>
+            </Viewbox>
+        </Button>
         <ProgressBar x:Name="progressBar" IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,150,10,10"/>
     </Grid>
 </Page>
