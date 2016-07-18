@@ -12,7 +12,7 @@ namespace Skype3D.CharacterUtil
     {
         public static string vocabularyPath = "ms-appx:///Assets/skype3d_vocabulary.txt";
         public static Dictionary<string, List<string>> words2Anim = new Dictionary<string, List<string>>();
-        static Random rnd = new Random();
+        private static Random rnd = new Random();
 
         public static async Task LoadVocabulary()
         {

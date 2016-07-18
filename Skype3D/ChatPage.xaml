@@ -72,6 +72,7 @@
     <Page.BottomAppBar>
         <CommandBar Background="Orange" Foreground="White">
             <AppBarButton x:Name="historyButton" Foreground="White" Icon="Comment" Label="history" Click="historyButton_Click"/>
+            <AppBarButton x:Name="comicsButton" Foreground="White" Icon="WebCam" Label="comics" Click="comicsButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

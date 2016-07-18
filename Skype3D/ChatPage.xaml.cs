@@ -79,6 +79,7 @@ namespace Skype3D
                 chatTopicBlock.Text = user.DisplayName;
                 avatarBitmap.UriSource = user.CharAvatarUri;
                 historyButton.Visibility = Visibility.Collapsed;
+                comicsButton.Visibility = Visibility.Collapsed;
                 chat = null;
             }
             refreshUnread();
@@ -221,6 +222,12 @@ namespace Skype3D
         {
             if (chat != null)
                 Frame.Navigate(typeof(HistoryPage), chat);
+        }
+
+        private void comicsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (chat != null)
+                Frame.Navigate(typeof(ComicsPage), chat);
         }
     }
 }
