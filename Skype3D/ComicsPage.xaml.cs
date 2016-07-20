@@ -29,8 +29,8 @@ namespace Skype3D
         private Random rand = new Random();
         private int page = 0;
         private int maxPage = 0;
-        private int rows = 4;
-        private int cols = 3;
+        private int rows = 3;
+        private int cols = 2;
         public ComicsPage()
         {
             this.InitializeComponent();
@@ -97,6 +97,8 @@ namespace Skype3D
                 double rowHeight = height / rows + rand.Next(60) - 30;
                 for (int j = 0; j < cols; j++)
                 {
+                    if (k >= messages.Count)
+                        break;
                     double cellwidth = width / cols + rand.Next(60) - 30;
                     Grid grid = new Grid();
                     grid.Width = j == cols - 1 ? width - x : cellwidth;
@@ -108,6 +110,8 @@ namespace Skype3D
                     x += cellwidth;
                 }
                 y += rowHeight;
+                if (k >= messages.Count)
+                    break;
             }
         }
 

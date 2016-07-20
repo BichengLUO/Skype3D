@@ -153,11 +153,16 @@ namespace Skype4Sharp
             ChatMessage message = new ChatMessage(parentSkype);
             message.Chat = this;
             message.ID = jsonObject.clientmessageid;
-            message.Body = jsonObject.content;
             if (jsonObject.messagetype == "Text")
+            {
                 message.Type = Enums.MessageType.Text;
+                message.Body = jsonObject.content;
+            } 
             else if (jsonObject.messagetype == "RichText")
+            {
                 message.Type = Enums.MessageType.RichText;
+                message.Body = jsonObject.content;
+            }
             foreach (User user in participants)
             {
                 if (((string)jsonObject.from).Contains(user.Username))

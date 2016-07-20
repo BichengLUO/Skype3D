@@ -61,15 +61,21 @@ namespace Skype3D
                 historyButton.Visibility = Visibility.Visible;
                 if (chat.LastMessage.Sender.Username == App.mainSkype.selfProfile.Username)
                 {
-                    sentMessageBlock.Text = chat.LastMessage.Body;
-                    senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
-                    senderBubblePop.Begin();
+                    if (chat.LastMessage.Body != null)
+                    {
+                        sentMessageBlock.Text = chat.LastMessage.Body;
+                        senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
+                        senderBubblePop.Begin();
+                    }
                 }
                 else
                 {
-                    receivedMessageBlock.Text = chat.LastMessage.Body;
-                    receiverNameBlock.Text = chat.LastMessage.Sender.DisplayName;
-                    receiverBubblePop.Begin();
+                    if (chat.LastMessage.Body != null)
+                    {
+                        receivedMessageBlock.Text = chat.LastMessage.Body;
+                        receiverNameBlock.Text = chat.LastMessage.Sender.DisplayName;
+                        receiverBubblePop.Begin();
+                    }
                 }
                 user = null;
             }
