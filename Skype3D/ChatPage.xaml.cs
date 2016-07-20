@@ -127,7 +127,9 @@ namespace Skype3D
             progressBar.Visibility = Visibility.Visible;
             await waitForLevel();
             Interoperation.setCharacterID(await getCharID());
+            Interoperation.setSelfCharacterID(await getSelfCharID());
             await waitForCharacterChanged();
+            await waitForSelfCharacterChanged();
             unityMask.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
         }
@@ -143,6 +145,11 @@ namespace Skype3D
             }
             else
                 return await CharacterUtil.CharacterManager.GetCharIDForUser(user);
+        }
+
+        private async Task<int> getSelfCharID()
+        {
+            return await CharacterUtil.CharacterManager.GetCharIDForUser(App.mainSkype.selfProfile);
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -166,6 +173,11 @@ namespace Skype3D
         private async Task waitForCharacterChanged()
         {
             while (Interoperation.characterChanged)
+                await Task.Delay(1000);
+        }
+        private async Task waitForSelfCharacterChanged()
+        {
+            while (Interoperation.selfCharacterChanged)
                 await Task.Delay(1000);
         }
 
