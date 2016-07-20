@@ -66,7 +66,7 @@ namespace Skype3D.Utility
                     panel.Margin = new Thickness(0, 15, 0, 0);
                     tri.VerticalAlignment = VerticalAlignment.Top;
                     tri.Points.Add(new Point(-10, 15));
-                    tri.Points.Add(new Point(10, 20));
+                    tri.Points.Add(new Point(10, 15));
                     break;
                 case 2:
                 case 3:
