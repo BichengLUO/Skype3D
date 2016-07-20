@@ -44,7 +44,8 @@ namespace Skype3D
             }
             
             historyListView.ItemsSource = messages;
-            historyListView.ScrollIntoView(historyListView.Items[historyListView.Items.Count - 1]);
+            if (historyListView.Items.Count > 0)
+                historyListView.ScrollIntoView(historyListView.Items[historyListView.Items.Count - 1]);
             progressBar.Visibility = Visibility.Collapsed;
         }
         private void showBackButton()

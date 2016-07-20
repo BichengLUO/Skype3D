@@ -123,6 +123,19 @@ namespace Skype4Sharp.Skype4SharpCore
                     e.MoveNext();
                     parentSkype.authTokens.RegistrationToken = e.Current.Split(';')[0];
                 }
+                if (webResponse.Headers.TryGetValues("Location", out values))
+                {
+                    var e = values.GetEnumerator();
+                    e.MoveNext();
+                    parentSkype.authTokens.Endpoint = e.Current;
+                }
+                if (webResponse.Headers.TryGetValues("Set-RegistrationToken", out values))
+                {
+                    var e = values.GetEnumerator();
+                    e.MoveNext();
+                    if (e.Current.Split(';').Length >= 3)
+                        parentSkype.authTokens.EndpointID = e.Current.Split(';')[2].Split('=')[1];
+                }
             }
         }
         private async Task startSubscription()
