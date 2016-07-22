@@ -134,6 +134,8 @@
     <None Include="Skype3D_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\avaChat_logo.png" />
+    <Content Include="Assets\avaChat_logo_shadow.png" />
     <Content Include="Assets\CharacterAvatars\0.png" />
     <Content Include="Assets\CharacterAvatars\1.png" />
     <Content Include="Assets\CharacterAvatars\2.png" />
