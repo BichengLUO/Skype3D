@@ -28,7 +28,7 @@ namespace Skype3D.Utility
                 fileName = "Assets/comics/" + charID.ToString() + "_embar_00_" + rnd.Next(5) + ".png";
 
             Rectangle rect = new Rectangle();
-            rect.Stroke = new SolidColorBrush(Colors.Black);
+            rect.Stroke = new SolidColorBrush(Colors.DarkGray);
             rect.StrokeThickness = 3;
             ImageBrush brush = new ImageBrush();
             brush.ImageSource = new BitmapImage(new Uri("ms-appx:///" + fileName));
@@ -58,24 +58,11 @@ namespace Skype3D.Utility
             panelGrid.Children.Add(panel);
             panelGrid.Children.Add(tri);
 
-            int pos = rnd.Next(4);
-            switch (pos)
-            {
-                case 0:
-                case 1:
-                    panel.Margin = new Thickness(0, 15, 0, 0);
-                    tri.VerticalAlignment = VerticalAlignment.Top;
-                    tri.Points.Add(new Point(-10, 15));
-                    tri.Points.Add(new Point(10, 15));
-                    break;
-                case 2:
-                case 3:
-                    panel.Margin = new Thickness(0, 0, 0, 15);
-                    tri.VerticalAlignment = VerticalAlignment.Bottom;
-                    tri.Points.Add(new Point(-10, 0));
-                    tri.Points.Add(new Point(10, 0));
-                    break;
-            }
+            int pos = rnd.Next(2);
+            panel.Margin = new Thickness(0, 15, 0, 0);
+            tri.VerticalAlignment = VerticalAlignment.Top;
+            tri.Points.Add(new Point(-10, 15));
+            tri.Points.Add(new Point(10, 15));
             switch (pos)
             {
                 case 0:
@@ -87,16 +74,6 @@ namespace Skype3D.Utility
                     panelGrid.VerticalAlignment = VerticalAlignment.Bottom;
                     panelGrid.HorizontalAlignment = HorizontalAlignment.Right;
                     tri.Points.Add(new Point(-15, 0));
-                    break;
-                case 2:
-                    panelGrid.VerticalAlignment = VerticalAlignment.Top;
-                    panelGrid.HorizontalAlignment = HorizontalAlignment.Right;
-                    tri.Points.Add(new Point(-15, 15));
-                    break;
-                case 3:
-                    panelGrid.VerticalAlignment = VerticalAlignment.Top;
-                    panelGrid.HorizontalAlignment = HorizontalAlignment.Left;
-                    tri.Points.Add(new Point(15, 15));
                     break;
             }
             

@@ -142,5 +142,15 @@ namespace Skype3D.CharacterUtil
                 charID = GetHashCharID(user);
             return charID;
         }
+
+        public static async Task<int[]> GetCharIDsForUsers(List<Skype4Sharp.User> users)
+        {
+            int[] result = new int[users.Count];
+            for (int i = 0; i < users.Count; i++)
+            {
+                result[i] = await GetCharIDForUser(users[i]);
+            }
+            return result;
+        }
     }
 }

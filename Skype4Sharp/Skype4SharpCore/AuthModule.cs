@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Skype4Sharp.Skype4SharpCore
 {
@@ -135,6 +136,8 @@ namespace Skype4Sharp.Skype4SharpCore
                     e.MoveNext();
                     if (e.Current.Split(';').Length >= 3)
                         parentSkype.authTokens.EndpointID = e.Current.Split(';')[2].Split('=')[1];
+                    else
+                        Debug.WriteLine("Endpoint ID Failed");
                 }
             }
         }

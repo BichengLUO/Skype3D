@@ -126,7 +126,7 @@ namespace Skype3D
             unityMask.Visibility = Visibility.Visible;
             progressBar.Visibility = Visibility.Visible;
             await waitForLevel();
-            Interoperation.setCharacterID(await getCharID());
+            await setCharID();
             Interoperation.setSelfCharacterID(await getSelfCharID());
             await waitForCharacterChanged();
             await waitForSelfCharacterChanged();
@@ -134,17 +134,26 @@ namespace Skype3D
             progressBar.Visibility = Visibility.Collapsed;
         }
 
-        private async Task<int> getCharID()
+        private async Task setCharID()
         {
             if (chat != null)
             {
                 if (chat.Type == Skype4Sharp.Enums.ChatType.Group)
-                    return await CharacterUtil.CharacterManager.GetCharIDForUser(chat.LastMessage.Sender);
+                {
+                    Skype4Sharp.User[] users = await chat.getParticipants();
+                    List<Skype4Sharp.User> others = new List<Skype4Sharp.User>();
+                    for (int i = 0; i < users.Length; i++)
+                    {
+                        if (users[i].Username != App.mainSkype.selfProfile.Username)
+                            others.Add(users[i]);
+                    }
+                    Interoperation.setCharacterIDs(await CharacterUtil.CharacterManager.GetCharIDsForUsers(others));
+                }
                 else
-                    return await CharacterUtil.CharacterManager.GetCharIDForUser(chat.mainParticipant);
+                    Interoperation.setCharacterID(await CharacterUtil.CharacterManager.GetCharIDForUser(chat.mainParticipant));
             }
             else
-                return await CharacterUtil.CharacterManager.GetCharIDForUser(user);
+                Interoperation.setCharacterID(await CharacterUtil.CharacterManager.GetCharIDForUser(user));
         }
 
         private async Task<int> getSelfCharID()
