@@ -218,9 +218,12 @@ namespace Skype3D
             if (messageText != "")
             {
                 messageTextBox.Text = "";
+                string animName = CharacterUtil.Words2Anim.convertToAnim(messageText);
+                Interoperation.setSelfAnimationName(animName);
                 sentMessageBlock.Text = messageText;
                 senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
                 senderBubblePop.Begin();
+
                 if (chat != null)
                     await App.mainSkype.SendMessage(chat, messageText);
                 else if (user != null)
