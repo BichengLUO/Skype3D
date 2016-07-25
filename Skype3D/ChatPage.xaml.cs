@@ -32,6 +32,7 @@ namespace Skype3D
         private WinRTBridge.WinRTBridge _bridge;
         private Skype4Sharp.Chat chat;
         private Skype4Sharp.User user;
+        private int[] othersCharIds;
 
         public ChatPage()
         {
@@ -147,7 +148,8 @@ namespace Skype3D
                         if (users[i].Username != App.mainSkype.selfProfile.Username)
                             others.Add(users[i]);
                     }
-                    Interoperation.setCharacterIDs(await CharacterUtil.CharacterManager.GetCharIDsForUsers(others));
+                    othersCharIds = await CharacterUtil.CharacterManager.GetCharIDsForUsers(others);
+                    Interoperation.setCharacterIDs(othersCharIds);
                 }
                 else
                     Interoperation.setCharacterID(await CharacterUtil.CharacterManager.GetCharIDForUser(chat.mainParticipant));
@@ -224,8 +226,13 @@ namespace Skype3D
                     receivedMessageBlock.Text = pMessage.Body;
                     receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
-                    Interoperation.setCharacterID(charID);
-                    Interoperation.setAnimationName(animName);
+                    if (chat != null && chat.Type == Skype4Sharp.Enums.ChatType.Group)
+                    {
+                        int ind = Array.IndexOf(othersCharIds, charID);
+                        Interoperation.setAnimationNames(ind, animName);
+                    }
+                    else
+                        Interoperation.setAnimationName(animName);
                 });
             }
             else
