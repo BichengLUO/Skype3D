@@ -103,6 +103,7 @@ namespace Skype3D
                     Grid grid = new Grid();
                     grid.Width = j == cols - 1 ? width - x : cellwidth;
                     grid.Height = i == rows - 1 ? height - y : rowHeight;
+                    while (messages[k].Sender == null) k++;
                     await Utility.ComicFactory.fillGridWithMessage(grid, messages[k++]);
                     Canvas.SetLeft(grid, x);
                     Canvas.SetTop(grid, y);

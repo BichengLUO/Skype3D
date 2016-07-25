@@ -39,7 +39,7 @@
                     <Grid HorizontalAlignment="{Binding Sender, Converter={StaticResource selfToAlignment}}" Margin="0,0,10,0" MaxWidth="220" MinWidth="200">
                         <StackPanel Background="{Binding Sender, Converter={StaticResource selfToColor}}" Margin="0,0,0,20">
                             <TextBlock TextWrapping="Wrap" Margin="10,10,10,0" Text="{Binding Sender.DisplayName}" FontWeight="Bold" Foreground="Brown" FontSize="13"/>
-                            <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" Text="{Binding Body}"/>
+                            <TextBlock TextWrapping="Wrap" Margin="10,0,10,10" FontWeight="SemiBold" Text="{Binding Body}"/>
                         </StackPanel>
                         <Polygon Fill="{Binding Sender, Converter={StaticResource selfToColor}}" VerticalAlignment="Bottom" Points="{Binding Sender, Converter={StaticResource selfToPoints}}"/>
                     </Grid>

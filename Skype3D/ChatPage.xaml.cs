@@ -60,7 +60,7 @@ namespace Skype3D
                 chatTopicBlock.Text = chat.Topic;
                 avatarBitmap.UriSource = chat.CharAvatarUri;
                 historyButton.Visibility = Visibility.Visible;
-                if (chat.LastMessage.Sender.Username == App.mainSkype.selfProfile.Username)
+                if (chat.LastMessage.Sender != null && chat.LastMessage.Sender.Username == App.mainSkype.selfProfile.Username)
                 {
                     if (chat.LastMessage.Body != null)
                     {
@@ -89,7 +89,8 @@ namespace Skype3D
             refreshUnread();
             showBackButton();
             await loadCharacter();
-            if (chat != null && chat.LastMessage.Sender.Username != App.mainSkype.selfProfile.Username
+            if (chat != null && chat.LastMessage.Sender != null
+                && chat.LastMessage.Sender.Username != App.mainSkype.selfProfile.Username
                 && chat.LastMessage.Body != null)
                 receiverBubblePop.Begin();
         }
@@ -150,7 +151,9 @@ namespace Skype3D
                         if (users[i].Username != App.mainSkype.selfProfile.Username)
                         {
                             others.Add(users[i]);
-                            if (chat != null && chat.LastMessage.Body != null && users[i].Username == chat.LastMessage.Sender.Username)
+                            if (chat != null && chat.LastMessage.Body != null
+                                && chat.LastMessage.Sender != null
+                                && users[i].Username == chat.LastMessage.Sender.Username)
                                 ind = others.Count - 1;
                         }   
                     }

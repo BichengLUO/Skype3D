@@ -54,7 +54,7 @@
                 <TranslateTransform x:Name="senderBubbleTrans" />
             </Grid.RenderTransform>
             <StackPanel Background="Orange" Opacity="0.8" Margin="0,0,0,20">
-                <TextBlock x:Name="sentMessageBlock" TextWrapping="Wrap" Margin="10" Text="content"/>
+                <TextBlock x:Name="sentMessageBlock" TextWrapping="Wrap" FontWeight="SemiBold" Margin="10" Text="content"/>
             </StackPanel>
             <Polygon Fill="Orange" Opacity="0.8" VerticalAlignment="Bottom" Points="150,0,170,0,170,20"/>
         </Grid>
@@ -63,7 +63,7 @@
                 <TranslateTransform x:Name="receiverBubbleTrans" />
             </Grid.RenderTransform>
             <StackPanel Background="DarkGray" Opacity="0.8" Margin="0,0,0,20">
-                <TextBlock x:Name="receivedMessageBlock" TextWrapping="Wrap" Margin="10" Text="content"/>
+                <TextBlock x:Name="receivedMessageBlock" TextWrapping="Wrap" FontWeight="SemiBold" Margin="10" Text="content"/>
             </StackPanel>
             <Polygon Fill="DarkGray" Opacity="0.8" VerticalAlignment="Bottom" Points="100,0,120,0,120,20"/>
         </Grid>
