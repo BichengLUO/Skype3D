@@ -8,12 +8,12 @@
     mc:Ignorable="d" Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Image Source="ms-appx:///Assets/avaChat_logo.png" Width="100" Height="100" VerticalAlignment="Top" Margin="30"/>
-        <TextBox x:Name="skypeNameBox" HorizontalAlignment="Stretch" Margin="20,150,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Skype Name" IsSpellCheckEnabled="False"/>
-        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Stretch" Margin="20,187,20,0" VerticalAlignment="Top" PlaceholderText="Password"/>
-        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="20,250,20,0" VerticalAlignment="Top" Foreground="White" FontWeight="SemiBold" Click="signInButton_Click"/>
-        <TextBlock x:Name="signInInfoBlock" HorizontalAlignment="Stretch" Margin="20,95,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-        <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="10" Margin="20,300,20,0" VerticalAlignment="Top" IsIndeterminate="True" Visibility="Collapsed"/>
+        <Image Source="ms-appx:///Assets/avaChat_logo.png" Width="120" Height="120" VerticalAlignment="Top" Margin="40"/>
+        <TextBox x:Name="skypeNameBox" HorizontalAlignment="Stretch" Margin="30,200,30,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Skype Name" IsSpellCheckEnabled="False"/>
+        <PasswordBox x:Name="passwordBox" HorizontalAlignment="Stretch" Margin="30,240,30,0" VerticalAlignment="Top" PlaceholderText="Password"/>
+        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="30,300,30,0" VerticalAlignment="Top" Foreground="White" Background="Orange" FontWeight="SemiBold" Click="signInButton_Click"/>
+        <TextBlock x:Name="signInInfoBlock" HorizontalAlignment="Stretch" Margin="30,170,30,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="10" Margin="30,280,30,0" VerticalAlignment="Top" IsIndeterminate="True" Visibility="Collapsed"/>
 
     </Grid>
 </Page>
