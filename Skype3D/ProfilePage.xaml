@@ -15,9 +15,10 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="nameBlock" HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontWeight="SemiBold" Foreground="DarkGray" FontSize="18"/>
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DarkOrange" Foreground="White" Width="50" Height="50">
-            <SymbolIcon Symbol="AllApps"/>
-        </Button>
+        <Grid HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Tapped="exitButton_Click" Width="50" Height="50">
+            <Image Source="ms-appx:///Assets/avaChat_logo_shadow.png"/>
+            <SymbolIcon Symbol="AllApps" Foreground="White" Margin="10,20,10,10"/>
+        </Grid>
         <ScrollViewer x:Name="charactersSelectionViewer" Margin="0,140,0,0" HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" SizeChanged="charactersSelectionViewer_SizeChanged">
             <Grid>
                 <StackPanel x:Name="charactersSelectionPanel" Orientation="Horizontal" Height="400" Margin="100,10,100,30">

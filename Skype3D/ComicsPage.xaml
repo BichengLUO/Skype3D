@@ -8,10 +8,11 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="exitButton" HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Click="exitButton_Click" Background="DarkOrange" Foreground="White" Width="50" Height="50">
-            <SymbolIcon Symbol="ContactPresence"/>
-        </Button>
-        <Ellipse x:Name="unreadMark" Fill="Firebrick" Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,25,5,0"/>
+        <Grid HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Tapped="exitButton_Click" Width="50" Height="50">
+            <Image Source="ms-appx:///Assets/avaChat_logo_shadow.png"/>
+            <SymbolIcon Symbol="ContactPresence" Foreground="White" Margin="10,20,10,10"/>
+        </Grid>
+        <Ellipse x:Name="unreadMark" Fill="Firebrick" Width="15" Height="15" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,40,5,0"/>
         <Ellipse Width="50" Height="50" Margin="10,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush>

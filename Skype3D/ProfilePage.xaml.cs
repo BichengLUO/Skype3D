@@ -60,7 +60,7 @@ namespace Skype3D
             }
         }
 
-        private void exitButton_Click(object sender, RoutedEventArgs e)
+        private void exitButton_Click(object sender, TappedRoutedEventArgs e)
         {
             Frame.GoBack();
         }

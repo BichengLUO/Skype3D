@@ -76,7 +76,7 @@ namespace Skype3D
                 unreadMark.Visibility = Visibility.Visible;
         }
 
-        private void exitButton_Click(object sender, RoutedEventArgs e)
+        private void exitButton_Click(object sender, TappedRoutedEventArgs e)
         {
             Frame.GoBack();
         }
@@ -87,7 +87,7 @@ namespace Skype3D
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var user = (Skype4Sharp.User)value;
-            return user.Username == App.mainSkype.selfProfile.Username ? new SolidColorBrush(Colors.Orange) : new SolidColorBrush(Colors.Goldenrod);
+            return user.Username == App.mainSkype.selfProfile.Username ? new SolidColorBrush(Colors.Orange) : new SolidColorBrush(Colors.DarkGray);
         }
 
         // No need to implement converting back on a one-way binding 

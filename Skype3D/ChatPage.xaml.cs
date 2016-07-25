@@ -65,7 +65,6 @@ namespace Skype3D
                     if (chat.LastMessage.Body != null)
                     {
                         sentMessageBlock.Text = chat.LastMessage.Body;
-                        senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
                         senderBubblePop.Begin();
                     }
                 }
@@ -74,7 +73,6 @@ namespace Skype3D
                     if (chat.LastMessage.Body != null)
                     {
                         receivedMessageBlock.Text = chat.LastMessage.Body;
-                        receiverNameBlock.Text = chat.LastMessage.Sender.DisplayName;
                     }
                 }
                 user = null;
@@ -178,7 +176,7 @@ namespace Skype3D
             return await CharacterUtil.CharacterManager.GetCharIDForUser(App.mainSkype.selfProfile);
         }
 
-        private void exitButton_Click(object sender, RoutedEventArgs e)
+        private void exitButton_Click(object sender, TappedRoutedEventArgs e)
         {
             clearUnreadBeforeGoBack();
             Frame.GoBack();
@@ -221,7 +219,6 @@ namespace Skype3D
                 string animName = CharacterUtil.Words2Anim.convertToAnim(messageText);
                 Interoperation.setSelfAnimationName(animName);
                 sentMessageBlock.Text = messageText;
-                senderNameBlock.Text = App.mainSkype.selfProfile.DisplayName;
                 senderBubblePop.Begin();
 
                 if (chat != null)
@@ -242,7 +239,6 @@ namespace Skype3D
                 await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     receivedMessageBlock.Text = pMessage.Body;
-                    receiverNameBlock.Text = pMessage.Sender.DisplayName;
                     receiverBubblePop.Begin();
                     if (chat != null && chat.Type == Skype4Sharp.Enums.ChatType.Group)
                     {

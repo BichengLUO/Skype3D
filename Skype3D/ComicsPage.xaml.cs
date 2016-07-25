@@ -79,7 +79,7 @@ namespace Skype3D
                 unreadMark.Visibility = Visibility.Visible;
         }
 
-        private void exitButton_Click(object sender, RoutedEventArgs e)
+        private void exitButton_Click(object sender, TappedRoutedEventArgs e)
         {
             Frame.GoBack();
         }
