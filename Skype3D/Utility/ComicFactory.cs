@@ -38,7 +38,7 @@ namespace Skype3D.Utility
 
             TextBlock content = new TextBlock();
             content.TextWrapping = TextWrapping.Wrap;
-            content.Foreground = new SolidColorBrush(Colors.White);
+            content.FontWeight = FontWeights.SemiBold;
             content.Text = message.Body;
             content.Margin = new Thickness(10);
 
