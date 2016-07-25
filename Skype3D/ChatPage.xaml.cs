@@ -75,7 +75,6 @@ namespace Skype3D
                     {
                         receivedMessageBlock.Text = chat.LastMessage.Body;
                         receiverNameBlock.Text = chat.LastMessage.Sender.DisplayName;
-                        receiverBubblePop.Begin();
                     }
                 }
                 user = null;
@@ -92,6 +91,9 @@ namespace Skype3D
             refreshUnread();
             showBackButton();
             await loadCharacter();
+            if (chat != null && chat.LastMessage.Sender.Username != App.mainSkype.selfProfile.Username
+                && chat.LastMessage.Body != null)
+                receiverBubblePop.Begin();
         }
 
         private void showBackButton()
@@ -137,16 +139,22 @@ namespace Skype3D
 
         private async Task setCharID()
         {
+            int ind = -1;
             if (chat != null)
             {
                 if (chat.Type == Skype4Sharp.Enums.ChatType.Group)
                 {
                     Skype4Sharp.User[] users = await chat.getParticipants();
                     List<Skype4Sharp.User> others = new List<Skype4Sharp.User>();
+                    
                     for (int i = 0; i < users.Length; i++)
                     {
                         if (users[i].Username != App.mainSkype.selfProfile.Username)
+                        {
                             others.Add(users[i]);
+                            if (chat != null && chat.LastMessage.Body != null && users[i].Username == chat.LastMessage.Sender.Username)
+                                ind = others.Count - 1;
+                        }   
                     }
                     othersCharIds = await CharacterUtil.CharacterManager.GetCharIDsForUsers(others);
                     Interoperation.setCharacterIDs(othersCharIds);
@@ -156,6 +164,13 @@ namespace Skype3D
             }
             else
                 Interoperation.setCharacterID(await CharacterUtil.CharacterManager.GetCharIDForUser(user));
+            if (ind != -1)
+            {
+                double leftMargin = (ActualWidth / othersCharIds.Length) * (othersCharIds.Length - ind - 1);
+                receiverBubble.Margin = new Thickness(leftMargin, 100, 0, 0);
+            }
+            else
+                receiverBubble.Margin = new Thickness(20, 100, 0, 0);
         }
 
         private async Task<int> getSelfCharID()
@@ -229,10 +244,15 @@ namespace Skype3D
                     if (chat != null && chat.Type == Skype4Sharp.Enums.ChatType.Group)
                     {
                         int ind = Array.IndexOf(othersCharIds, charID);
+                        double leftMargin = (ActualWidth / othersCharIds.Length) * (othersCharIds.Length - ind - 1);
+                        receiverBubble.Margin = new Thickness(leftMargin, 100, 0, 0);
                         Interoperation.setAnimationNames(ind, animName);
                     }
                     else
+                    {
+                        receiverBubble.Margin = new Thickness(20, 100, 0, 0);
                         Interoperation.setAnimationName(animName);
+                    }   
                 });
             }
             else
