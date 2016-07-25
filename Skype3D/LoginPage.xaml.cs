@@ -31,7 +31,7 @@ namespace Skype3D
             this.InitializeComponent();
         }
 
-        private async void signInButton_Click(object sender, RoutedEventArgs e)
+        private async void signInButton_Click(object sender, TappedRoutedEventArgs e)
         {
             string authUser = skypeNameBox.Text;
             string authPass = passwordBox.Password;

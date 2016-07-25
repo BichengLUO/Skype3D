@@ -11,7 +11,10 @@
         <Image Source="ms-appx:///Assets/avaChat_logo.png" Width="120" Height="120" VerticalAlignment="Top" Margin="40"/>
         <TextBox x:Name="skypeNameBox" HorizontalAlignment="Stretch" Margin="30,200,30,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" PlaceholderText="Skype Name" IsSpellCheckEnabled="False"/>
         <PasswordBox x:Name="passwordBox" HorizontalAlignment="Stretch" Margin="30,240,30,0" VerticalAlignment="Top" PlaceholderText="Password"/>
-        <Button x:Name="signInButton" Content="Sign in" HorizontalAlignment="Stretch" Margin="30,300,30,0" VerticalAlignment="Top" Foreground="White" Background="Orange" FontWeight="SemiBold" Click="signInButton_Click"/>
+        <Grid HorizontalAlignment="Right" Margin="0,300,40,0" VerticalAlignment="Top" Tapped="signInButton_Click" Width="60" Height="60">
+            <Image Source="ms-appx:///Assets/avaChat_logo_shadow.png"/>
+            <TextBlock Text="Sign in" Foreground="White" Margin="5,25,5,5"/>
+        </Grid>
         <TextBlock x:Name="signInInfoBlock" HorizontalAlignment="Stretch" Margin="30,170,30,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <ProgressBar x:Name="progressBar" HorizontalAlignment="Stretch" Height="10" Margin="30,280,30,0" VerticalAlignment="Top" IsIndeterminate="True" Visibility="Collapsed"/>
 
