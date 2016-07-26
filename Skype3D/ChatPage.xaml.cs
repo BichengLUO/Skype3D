@@ -248,6 +248,7 @@ namespace Skype3D
                         int ind = Array.IndexOf(othersCharIds, charID);
                         double leftMargin = (ActualWidth / othersCharIds.Length) * (othersCharIds.Length - ind - 1);
                         receiverBubble.Margin = new Thickness(leftMargin, 100, 0, 0);
+                        Interoperation.idleAllAnimation();
                         Interoperation.setAnimationNames(ind, animName);
                     }
                     else
@@ -284,6 +285,11 @@ namespace Skype3D
         {
             if (chat != null)
                 Frame.Navigate(typeof(ComicsPage), chat);
+        }
+
+        private void arButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interoperation.switchARMode();
         }
     }
 }
