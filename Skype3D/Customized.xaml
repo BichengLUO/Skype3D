@@ -40,7 +40,7 @@
                         <Image Source="ms-appx:///Assets/customized/Boy_14_clothes.png" Tapped="Image_Tapped"/>
                         <Image Source="ms-appx:///Assets/customized/Boy_15_clothes.png" Tapped="Image_Tapped"/>
                     </StackPanel>
-                    <Grid x:Name="selection" Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0" Margin="40,0,0,0">
+                    <Grid x:Name="selection" Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="1" Margin="40,0,0,0">
                         <Grid.RenderTransform>
                             <TranslateTransform x:Name="selectionTrans" />
                         </Grid.RenderTransform>
