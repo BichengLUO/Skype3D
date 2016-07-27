@@ -98,6 +98,8 @@ namespace Skype4Sharp.Events
         public async Task ProcessPoll(string rawInfo)
         {
             dynamic allData = JsonConvert.DeserializeObject(rawInfo);
+            if (allData.eventMessages == null)
+                return;
             foreach (dynamic singleMessage in allData.eventMessages)
             {
                 string messageType = (string)(singleMessage.resource.messagetype);

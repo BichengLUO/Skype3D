@@ -11,6 +11,15 @@
         <local:SelfColorConverter x:Key="selfToColor"/>
         <local:SelfBubblePointsConverter x:Key="selfToPoints"/>
     </Page.Resources>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <SlideNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid HorizontalAlignment="Right" Margin="0,30,10,0" VerticalAlignment="Top" Tapped="exitButton_Click" Width="50" Height="50">

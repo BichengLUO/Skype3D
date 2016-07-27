@@ -92,7 +92,7 @@ namespace Skype3D
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
+                rootFrame.Background = new SolidColorBrush(Colors.White);
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
