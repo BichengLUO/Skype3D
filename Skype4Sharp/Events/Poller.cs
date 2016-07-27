@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Skype4Sharp.Events
 {
@@ -98,8 +99,11 @@ namespace Skype4Sharp.Events
         public async Task ProcessPoll(string rawInfo)
         {
             dynamic allData = JsonConvert.DeserializeObject(rawInfo);
-            if (allData.eventMessages == null)
+            if (allData.eventMessages == null && allData.errorCode != null)
+            {
+                Debug.WriteLine("Poll failed: " + (string)allData.message);
                 return;
+            }
             foreach (dynamic singleMessage in allData.eventMessages)
             {
                 string messageType = (string)(singleMessage.resource.messagetype);
