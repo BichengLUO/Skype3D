@@ -104,5 +104,10 @@ namespace Skype3D
             double offset = selection.Margin.Left - (charactersSelectionViewer.ActualWidth - selection.ActualWidth) / 2.0;
             charactersSelectionViewer.ChangeView(offset, null, null, false);
         }
+
+        private void customized_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Customized));
+        }
     }
 }

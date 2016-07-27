@@ -31,6 +31,7 @@
                     <Image Source="ms-appx:///Assets/CharacterThumbs/6.png" Width="150" Tapped="characterImg_Tapped"/>
                     <Image Source="ms-appx:///Assets/CharacterThumbs/7.png" Width="150" Tapped="characterImg_Tapped"/>
                     <Image Source="ms-appx:///Assets/CharacterThumbs/8.png" Width="150" Tapped="characterImg_Tapped"/>
+                    <Image x:Name="customized" Source="ms-appx:///Assets/customized/Boy_01.png" Width="150" Tapped="customized_Tapped"/>
                 </StackPanel>
                 <Grid x:Name="selection" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Opacity="0">
                     <Grid.RenderTransform>

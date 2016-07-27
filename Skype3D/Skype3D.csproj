@@ -111,6 +111,9 @@
     <Compile Include="ComicsPage.xaml.cs">
       <DependentUpon>ComicsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Customized.xaml.cs">
+      <DependentUpon>Customized.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
@@ -1279,6 +1282,36 @@
     <Content Include="Assets\comics\8_walk_00_2.png" />
     <Content Include="Assets\comics\8_walk_00_3.png" />
     <Content Include="Assets\comics\8_walk_00_4.png" />
+    <Content Include="Assets\customized\Boy_01.png" />
+    <Content Include="Assets\customized\Boy_01_clothes.png" />
+    <Content Include="Assets\customized\Boy_02.png" />
+    <Content Include="Assets\customized\Boy_02_clothes.png" />
+    <Content Include="Assets\customized\Boy_03.png" />
+    <Content Include="Assets\customized\Boy_03_clothes.png" />
+    <Content Include="Assets\customized\Boy_04.png" />
+    <Content Include="Assets\customized\Boy_04_clothes.png" />
+    <Content Include="Assets\customized\Boy_05.png" />
+    <Content Include="Assets\customized\Boy_05_clothes.png" />
+    <Content Include="Assets\customized\Boy_06.png" />
+    <Content Include="Assets\customized\Boy_06_clothes.png" />
+    <Content Include="Assets\customized\Boy_07.png" />
+    <Content Include="Assets\customized\Boy_07_clothes.png" />
+    <Content Include="Assets\customized\Boy_08.png" />
+    <Content Include="Assets\customized\Boy_08_clothes.png" />
+    <Content Include="Assets\customized\Boy_09.png" />
+    <Content Include="Assets\customized\Boy_09_clothes.png" />
+    <Content Include="Assets\customized\Boy_10.png" />
+    <Content Include="Assets\customized\Boy_10_clothes.png" />
+    <Content Include="Assets\customized\Boy_11.png" />
+    <Content Include="Assets\customized\Boy_11_clothes.png" />
+    <Content Include="Assets\customized\Boy_12.png" />
+    <Content Include="Assets\customized\Boy_12_clothes.png" />
+    <Content Include="Assets\customized\Boy_13.png" />
+    <Content Include="Assets\customized\Boy_13_clothes.png" />
+    <Content Include="Assets\customized\Boy_14.png" />
+    <Content Include="Assets\customized\Boy_14_clothes.png" />
+    <Content Include="Assets\customized\Boy_15.png" />
+    <Content Include="Assets\customized\Boy_15_clothes.png" />
     <Content Include="Assets\default-avatar.png" />
     <Content Include="Assets\default-group-avatar.png" />
     <Content Include="Assets\skype3d_vocabulary.txt" />
@@ -1315,6 +1348,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComicsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Customized.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
