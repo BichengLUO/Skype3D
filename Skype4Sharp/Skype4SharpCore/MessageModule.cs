@@ -63,7 +63,8 @@ namespace Skype4Sharp.Skype4SharpCore
             dynamic jsonObject = JsonConvert.DeserializeObject(rawInfo);
             foreach (dynamic chat in jsonObject.conversations)
             {
-                toReturn.Add(await chatFromRecent(chat));
+                if (chat.lastMessage.conversationLink != null)
+                    toReturn.Add(await chatFromRecent(chat));
             }
             return toReturn;
         }
@@ -93,7 +94,8 @@ namespace Skype4Sharp.Skype4SharpCore
                     toReturn.AvatarUri = new Uri("ms-appx:///Assets/default-avatar.png");
                 toReturn.Type = Enums.ChatType.Private;
             }
-            toReturn.LastMessage = toReturn.messageFromJson(jsonObject.lastMessage, await toReturn.getParticipants());
+            if (jsonObject.lastMessage != null)
+                toReturn.LastMessage = toReturn.messageFromJson(jsonObject.lastMessage, await toReturn.getParticipants());
             return toReturn;
         }
     }

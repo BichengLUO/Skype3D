@@ -108,7 +108,10 @@ namespace Skype4Sharp
         {
             blockUnauthorized();
             Chat targetChat = new Chat(this);
-            targetChat.ID = targetUser.Username;
+            if (targetUser.Username.StartsWith("8:"))
+                targetChat.ID = targetUser.Username.ToLower();
+            else
+                targetChat.ID = "8:" + targetUser.Username.ToLower();
             targetChat.ChatLink = clientGatewayMessengerDomain + "/v1/users/ME/conversations/" + targetChat.ID;
             targetChat.Type = Enums.ChatType.Private;
             return await mainMessageModule.createMessage(targetChat, newMessage, messageType);

@@ -22,17 +22,17 @@ namespace Skype4Sharp.Skype4SharpCore
             parentSkype.authState = Enums.LoginState.Processing;
             try
             {
+                string skypeToken = "";
                 if (parentSkype.authInfo != null)
-                {
-                    string skypeToken = "";
                     skypeToken = await getSkypeToken();
-                    if (skypeToken == "")
-                        return false;
-                    else
-                        parentSkype.authTokens.SkypeToken = skypeToken;
-                    await setRegTokenAndEndpoint();
-                    await startSubscription();
-                }
+                else
+                    skypeToken = await getSkypeTokenBySession();
+                if (skypeToken == "")
+                    return false;
+                else
+                    parentSkype.authTokens.SkypeToken = skypeToken;
+                await setRegTokenAndEndpoint();
+                await startSubscription();
                 await setProfile();
                 parentSkype.authState = Enums.LoginState.Success;
                 return true;
@@ -42,6 +42,20 @@ namespace Skype4Sharp.Skype4SharpCore
                 parentSkype.authState = Enums.LoginState.Failed;
                 return false;
             }
+        }
+        private async Task<string> getSkypeTokenBySession()
+        {
+            string skypeToken = "";
+            HttpRequestMessage standardTokenRequest = parentSkype.mainFactory.createWebRequest_GET("https://login.skype.com/login?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com", new string[][] { });
+            using (var handler = new HttpClientHandler() { CookieContainer = parentSkype.mainCookies })
+            using (var client = new HttpClient(handler))
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", parentSkype.userAgent);
+                var result = await client.SendAsync(standardTokenRequest);
+                string resp = await result.Content.ReadAsStringAsync();
+                skypeToken = new Regex("type=\"hidden\" name=\"skypetoken\" value=\"(.*?)\"").Match(resp).Groups[1].ToString();
+            }
+            return skypeToken;
         }
         public async Task Logout()
         {

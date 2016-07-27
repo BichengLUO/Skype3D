@@ -165,7 +165,7 @@ namespace Skype4Sharp
             }
             foreach (User user in participants)
             {
-                if (((string)jsonObject.from).Contains(user.Username))
+                if (jsonObject.from != null && ((string)jsonObject.from).Contains(user.Username))
                 {
                     message.Sender = user;
                     break;
