@@ -45,11 +45,11 @@ namespace Skype3D
         {
             if (App.mainSkype == null)
             {
-                CookieContainer cookieContainer = await CookieManager.ReadCookiesFromDisk(App.cookieFilename);
-                App.mainSkype = new Skype4Sharp.Skype4Sharp(cookieContainer);
+                Skype4Sharp.Auth.Tokens tokens = await CookieManager.ReadTokenFromDisk(App.tokensFilename);
+                App.mainSkype = new Skype4Sharp.Skype4Sharp(tokens);
                 if (await App.mainSkype.Login())
                 {
-                    CookieManager.WriteCookiesToDisk(App.cookieFilename, App.mainSkype.mainCookies);
+                    CookieManager.WriteTokenToDisk(App.tokensFilename, App.mainSkype.authTokens);
                     App.mainSkype.messageReceived += messageReceived;
                     App.mainSkype.StartPoll();
                 }

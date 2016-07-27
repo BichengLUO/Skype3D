@@ -52,9 +52,10 @@ namespace Skype4Sharp
             mainMessageModule = new MessageModule(this);
             mainContactModule = new ContactModule(this);
         }
-        public Skype4Sharp(CookieContainer cookieContainer)
+        public Skype4Sharp(Tokens tokens)
         {
-            mainCookies = cookieContainer;
+            authTokens = tokens;
+            mainCookies = new CookieContainer();
             mainFactory = new HttpRequestFactory();
             mainPoll = new Poller(this);
             selfProfile = new User(this);

@@ -40,7 +40,7 @@ namespace Skype3D
             if (await App.mainSkype.Login())
             {
                 signInInfoBlock.Text = "Signed in!";
-                CookieManager.WriteCookiesToDisk(App.cookieFilename, App.mainSkype.mainCookies);
+                CookieManager.WriteTokenToDisk(App.tokensFilename, App.mainSkype.authTokens);
                 Frame.Navigate(typeof(MainPage));
             }
             else

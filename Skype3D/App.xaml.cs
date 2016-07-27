@@ -30,6 +30,7 @@ namespace Skype3D
     {
         private AppCallbacks appCallbacks;
         public static Skype4Sharp.Skype4Sharp mainSkype;
+        public static string tokensFilename = "tokens";
         public static string cookieFilename = "cookies";
         public static Dictionary<string, int> unreadRecord = new Dictionary<string, int>();
         public static bool recentNeedUpdate = false;
@@ -110,7 +111,7 @@ namespace Skype3D
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    if (await CookieManager.FileExists(cookieFilename))
+                    if (await CookieManager.FileExists(tokensFilename) && await CookieManager.FileSize(tokensFilename) > 0)
                         rootFrame.Navigate(typeof(MainPage), e.Arguments);
                     else
                         rootFrame.Navigate(typeof(LoginPage), e.Arguments);
